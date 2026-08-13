@@ -1,0 +1,72 @@
+name: Release Godmode
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate repository
+        run: npm run check
+
+      - name: Verify tag matches package and manifests
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          expected = os.environ["RELEASE_TAG"].removeprefix("v")
+          paths = [
+              Path("package.json"),
+              Path(".claude-plugin/plugin.json"),
+              Path(".codex-plugin/plugin.json"),
+              Path("skills/.codex-plugin/plugin.json"),
+          ]
+          versions = {str(path): json.loads(path.read_text())["version"] for path in paths}
+          mismatches = {path: version for path, version in versions.items() if version != expected}
+          if mismatches:
+              raise SystemExit(f"Version mismatch for {expected}: {mismatches}")
+          PY
+
+      - name: Build release archive
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          archive="godmode-${RELEASE_TAG}.tar.gz"
+          git archive --format=tar.gz \
+            --prefix="godmode-${RELEASE_TAG}/" \
+            --output="$archive" HEAD
+          sha256sum "$archive" > "$archive.sha256"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" \
+            "godmode-${RELEASE_TAG}.tar.gz" \
+            "godmode-${RELEASE_TAG}.tar.gz.sha256" \
+            --generate-notes \
+            --title "Godmode ${RELEASE_TAG}"

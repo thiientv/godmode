@@ -1,0 +1,12 @@
+{
+  "name": "godmode",
+  "version": "0.3.0",
+  "description": "Composable engineering workflows and expert capabilities for AI coding agents.",
+  "author": {
+    "name": "Godmode contributors"
+  },
+  "homepage": "https://github.com/thiientv/godmode",
+  "repository": "https://github.com/thiientv/godmode",
+  "license": "MIT",
+  "skills": "./skills"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "godmode-agent-skills",
+  "version": "0.3.0",
+  "description": "Composable engineering workflows and expert capabilities for AI coding agents.",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "skills",
+    "!skills/**/__pycache__",
+    "!skills/**/*.pyc",
+    "!skills/**/*.pyo",
+    "hooks",
+    ".agents",
+    ".claude-plugin",
+    ".codex-plugin",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SUPPORT.md",
+    "SECURITY.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thiientv/godmode"
+  },
+  "scripts": {
+    "validate": "python3 -B scripts/validate.py",
+    "test": "python3 -B -m unittest discover -s tests -p 'test_*.py'",
+    "eval:validate": "python3 -B scripts/behavior_eval.py validate evals/behavior/core-workflows.json",
+    "check": "python3 -B scripts/validate.py && npm run eval:validate && npm test"
+  }
+}

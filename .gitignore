@@ -1,0 +1,28 @@
+# Research clones are intentionally local-only and must never ship in Godmode.
+/examples/
+
+# Local tooling and generated files.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+node_modules/
+.DS_Store
+
+# Agent and editor state created during local experiments.
+.claude/
+.codex/
+.cursor/
+.idea/
+.vscode/
+
+# The Codex marketplace manifest is part of the public distribution metadata.
+!.agents/
+!.agents/plugins/
+!.agents/plugins/marketplace.json
+
+# Evaluation output is local evidence, not a release artifact.
+/evals/results/

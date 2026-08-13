@@ -1,0 +1,28 @@
+name: Validate Godmode
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate skills and manifests
+        run: python3 scripts/validate.py
+
+      - name: Run validator tests
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
