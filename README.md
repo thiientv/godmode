@@ -2,17 +2,118 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-Composable engineering workflows and expert capabilities for AI coding agents.
+**Your coding agent already knows how to code.<br>
+Godmode teaches it how to engineer.**
 
-Godmode gives coding agents explicit workflows for designing before editing,
-planning and executing multi-step work, writing tests first, finding root
-causes, reviewing independently, validating observable behavior, releasing
-safely, responding to incidents, and applying focused engineering expertise.
+[![Release](https://img.shields.io/github/v/release/thiientv/godmode)](https://github.com/thiientv/godmode/releases/latest)
+[![Validate](https://github.com/thiientv/godmode/actions/workflows/validate.yml/badge.svg)](https://github.com/thiientv/godmode/actions/workflows/validate.yml)
+[![License](https://img.shields.io/github/license/thiientv/godmode)](LICENSE)
 
-The repository uses the standard Agent Skills layout: each public capability is
-a directory with a `SKILL.md`, concise routing metadata, and optional
-on-demand references or deterministic helpers. It is intentionally not a
-proprietary orchestration runtime.
+Godmode is a composable catalog of engineering workflows and expert
+capabilities for AI coding agents. It helps agents design before editing, test
+before claiming, review independently, and verify with fresh evidence.
+
+## The problem
+
+Coding agents are good at producing code. Without explicit engineering
+behavior, they can start too early, miss existing conventions, bolt tests on at
+the end, and call a plausible-looking result complete.
+
+```text
+WITHOUT GODMODE
+
+"Build authentication"
+        ↓
+code immediately
+        ↓
+tests, security, and integration considered late
+        ↓
+looks done
+
+
+WITH GODMODE
+
+"Build authentication"
+        ↓
+solution design
+        ↓
+API + database + security expertise
+        ↓
+implementation plan
+        ↓
+test-driven development
+        ↓
+independent review
+        ↓
+fresh verification
+        ↓
+verified result
+```
+
+## Composition, not one giant prompt
+
+Godmode equips compatible agents to discover and compose the engineering
+behavior required by a task. Native skill discovery remains the routing
+authority; Godmode supplies focused boundaries, procedures, references, and
+deterministic helpers.
+
+```text
+                 USER TASK
+
+"Build a production analytics dashboard"
+
+                     ↓
+                  Godmode
+
+       ┌─────────────┼─────────────┐
+       ↓             ↓             ↓
+solution-design frontend-design test-strategy
+       │             │             │
+       └─────────────┼─────────────┘
+                     ↓
+      implementation-planning + TDD
+                     ↓
+              browser-testing
+                     ↓
+                ui-ux-review
+                     ↓
+          completion-verification
+```
+
+This is an example composition, not a mandatory pipeline. A small task may need
+one skill; a consequential task may combine workflow and domain expertise.
+
+### More compositions
+
+```text
+New API with persistence:
+  solution-design + api-and-interface-design + database-design
+  → implementation-planning → TDD → security-and-hardening
+
+Flaky browser regression:
+  root-cause-debugging + browser-testing
+  → test-driven-development → completion-verification
+
+Stateful production migration:
+  safe-migrations + test-strategy + observability-and-instrumentation
+  → release-engineering → behavior-validation
+
+Active production impact:
+  incident-response → root-cause-debugging
+  → test-driven-development → completion-verification
+```
+
+## More than Markdown
+
+Godmode skills use the smallest implementation that earns its maintenance cost.
+Some are concise procedures with progressive references. Repeated or
+error-prone work can also include deterministic tooling.
+
+`frontend-design` is the current quality bar: it combines a workflow, design
+and interaction references, stack-aware guidance, a searchable design catalog,
+design-system extraction, static UI auditing, and rendered verification. The
+goal is not to make every skill ship a script; it is to give each domain the
+knowledge and tools needed to produce evidence-backed work.
 
 ## Install
 
@@ -46,6 +147,11 @@ local marketplace entry under `.agents/plugins/`. The marketplace deliberately
 publishes only `skills/`, so the ignored research clones under `examples/` are
 not part of the installed plugin. Install it through the Codex plugin browser
 or local marketplace workflow, then verify that the expected skills appear.
+
+Each public capability uses the standard Agent Skills layout: a directory with
+`SKILL.md`, concise routing metadata, and optional on-demand references or
+deterministic helpers. Godmode intentionally remains a portable catalog rather
+than a proprietary orchestration runtime.
 
 ## Catalog
 
@@ -94,42 +200,6 @@ or local marketplace workflow, then verify that the expected skills appear.
 
 Names are intentionally literal and task-oriented. They describe the boundary
 without depending on another repository's public vocabulary or compact aliases.
-
-## Typical compositions
-
-```text
-New feature:
-  solution-design → implementation-planning → plan-execution + test-driven-development
-  → requesting-code-review → completion-verification
-
-New API with persistence:
-  solution-design + api-and-interface-design + database-design
-  → implementation-planning → TDD → security-and-hardening
-
-Polished web page:
-  solution-design + frontend-design → plan-execution + browser-testing
-  → ui-ux-review → completion-verification
-
-Flaky browser regression:
-  root-cause-debugging + browser-testing
-  → test-driven-development → completion-verification
-
-Unfamiliar cross-cutting change:
-  codebase-orientation → solution-design + technical-research
-  → implementation-planning → plan-execution
-
-Stateful production migration:
-  safe-migrations + test-strategy + observability-and-instrumentation
-  → release-engineering → behavior-validation
-
-Active production impact:
-  incident-response → root-cause-debugging
-  → test-driven-development → completion-verification
-```
-
-Native client discovery decides which descriptions activate. Multiple skills
-are appropriate only when the task crosses their boundaries; the catalog does
-not preload every reference file.
 
 ## Design principles
 

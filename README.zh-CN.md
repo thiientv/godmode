@@ -2,11 +2,104 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-面向 AI 编程智能体的可组合工程工作流与专业能力集合。
+**你的编程智能体已经会写代码。<br>
+Godmode 教会它如何像工程师一样工作。**
 
-Godmode 为编程智能体提供明确的工作流：在修改代码前完成设计、规划并执行多步骤任务、测试驱动开发、定位根因、独立评审、验证可观察行为、安全发布、响应生产事故，以及运用聚焦的工程专业能力。
+[![Release](https://img.shields.io/github/v/release/thiientv/godmode)](https://github.com/thiientv/godmode/releases/latest)
+[![Validate](https://github.com/thiientv/godmode/actions/workflows/validate.yml/badge.svg)](https://github.com/thiientv/godmode/actions/workflows/validate.yml)
+[![License](https://img.shields.io/github/license/thiientv/godmode)](LICENSE)
 
-本仓库采用标准 Agent Skills 目录结构：每项公开能力都位于包含 `SKILL.md` 的独立目录中，并提供简洁的路由元数据，以及按需加载的参考资料或确定性辅助工具。Godmode 刻意不引入专有编排运行时。
+Godmode 是面向 AI 编程智能体的可组合工程工作流与专业能力目录。它帮助智能体在修改前完成设计、在宣称完成前执行测试、进行独立评审，并用最新证据验证结果。
+
+## 问题
+
+编程智能体擅长生成代码。但如果缺少明确的工程行为，它们可能过早开始实现、忽略代码库既有约定、最后才补测试，并把一个看起来合理的结果当作已经完成。
+
+```text
+没有 GODMODE
+
+“构建身份验证”
+        ↓
+立即开始写代码
+        ↓
+最后才考虑测试、安全和集成
+        ↓
+看起来完成了
+
+
+使用 GODMODE
+
+“构建身份验证”
+        ↓
+solution design
+        ↓
+API + database + security expertise
+        ↓
+implementation plan
+        ↓
+test-driven development
+        ↓
+independent review
+        ↓
+fresh verification
+        ↓
+verified result
+```
+
+## 组合能力，而不是一个巨型 Prompt
+
+Godmode 让兼容客户端中的智能体能够发现并组合任务所需的工程行为。原生 skill discovery 仍是路由权威；Godmode 提供清晰的能力边界、执行步骤、参考知识和确定性辅助工具。
+
+```text
+                    用户任务
+
+“构建一个可用于生产环境的分析仪表盘”
+
+                       ↓
+                    Godmode
+
+         ┌─────────────┼─────────────┐
+         ↓             ↓             ↓
+  solution-design frontend-design test-strategy
+         │             │             │
+         └─────────────┼─────────────┘
+                       ↓
+        implementation-planning + TDD
+                       ↓
+                browser-testing
+                       ↓
+                  ui-ux-review
+                       ↓
+            completion-verification
+```
+
+这只是一个组合示例，并非强制流水线。小任务可能只需要一个 skill；影响重大的任务则可以组合工作流和领域专业能力。
+
+### 更多组合
+
+```text
+包含持久化的新 API：
+  solution-design + api-and-interface-design + database-design
+  → implementation-planning → TDD → security-and-hardening
+
+不稳定的浏览器回归：
+  root-cause-debugging + browser-testing
+  → test-driven-development → completion-verification
+
+有状态的生产迁移：
+  safe-migrations + test-strategy + observability-and-instrumentation
+  → release-engineering → behavior-validation
+
+正在影响生产环境的事故：
+  incident-response → root-cause-debugging
+  → test-driven-development → completion-verification
+```
+
+## 不只是 Markdown
+
+Godmode 的每项技能都采用足以支撑其维护成本的最小实现。有些技能是配合渐进式参考资料的精炼流程；对于重复且容易出错的工作，还可以提供确定性工具。
+
+`frontend-design` 是当前的质量标杆：它组合了工作流、设计与交互参考资料、栈相关指导、可搜索的设计目录、设计系统提取、静态 UI 审查和实际渲染验证。目标不是让每个 skill 都附带脚本，而是为每个领域提供产出证据化结果所需的知识和工具。
 
 ## 安装
 
@@ -33,6 +126,8 @@ claude plugin validate /absolute/path/to/godmode
 ### Codex
 
 仓库包含用于直接加载的 `.codex-plugin/plugin.json`，以及 `.agents/plugins/` 下的本地 marketplace 条目。Marketplace 只发布 `skills/`，因此 `examples/` 中被忽略的研究仓库不会进入安装包。请通过 Codex 插件浏览器或本地 marketplace 工作流安装，并确认预期技能已成功显示。
+
+每项公开能力都采用标准 Agent Skills 目录结构：独立目录中包含 `SKILL.md`、简洁的路由元数据，以及可选的按需参考资料或确定性辅助工具。Godmode 刻意保持为可移植目录，而不是专有编排运行时。
 
 ## 技能目录
 
@@ -80,40 +175,6 @@ claude plugin validate /absolute/path/to/godmode
 | `incident-response` | 生产事故中的控制、恢复、证据、沟通和复盘 |
 
 这些名称刻意采用直白、面向任务的词汇。它们描述能力边界，不依赖其他仓库的公开命名或难懂的短别名。
-
-## 常见组合
-
-```text
-新功能：
-  solution-design → implementation-planning → plan-execution + test-driven-development
-  → requesting-code-review → completion-verification
-
-包含持久化的新 API：
-  solution-design + api-and-interface-design + database-design
-  → implementation-planning → TDD → security-and-hardening
-
-高质量网页：
-  solution-design + frontend-design → plan-execution + browser-testing
-  → ui-ux-review → completion-verification
-
-不稳定的浏览器回归：
-  root-cause-debugging + browser-testing
-  → test-driven-development → completion-verification
-
-陌生的跨模块变更：
-  codebase-orientation → solution-design + technical-research
-  → implementation-planning → plan-execution
-
-有状态的生产迁移：
-  safe-migrations + test-strategy + observability-and-instrumentation
-  → release-engineering → behavior-validation
-
-正在影响生产环境的事故：
-  incident-response → root-cause-debugging
-  → test-driven-development → completion-verification
-```
-
-原生客户端 discovery 根据描述决定激活哪些技能。只有当任务确实跨越多个能力边界时才应组合多个技能；目录不会预加载所有参考文件。
 
 ## 设计原则
 

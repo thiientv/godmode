@@ -5,14 +5,16 @@ versioning, with pre-1.0 minor releases allowed to change the public skill API.
 
 ## [Unreleased]
 
-### Added
+### Changed
 
-- Simplified Chinese README with language navigation and release-package inclusion.
+- Reframed both READMEs around the engineering problem, task-driven skill
+  composition, and the workflow-plus-knowledge-plus-tooling quality model.
 
 ## [0.3.0] - 2026-08-13
 
 ### Added
 
+- Simplified Chinese README with language navigation and release-package inclusion.
 - Nine capabilities for codebase orientation, technical research, safe
   migrations, release engineering, architecture review, code simplification,
   source-blind behavior validation, agent evaluation, and incident response.
