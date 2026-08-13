@@ -87,8 +87,8 @@ they report evidence to investigate, not an absolute design score.
 
 Update the README catalog and architecture notes when public behavior changes.
 Update `docs/research.md` if a reference project influences a new decision.
-Keep research clones in `examples/`; never import them or make runtime behavior
-depend on their presence.
+Never import local research checkouts or make runtime behavior depend on their
+presence.
 
 ## Pull requests
 

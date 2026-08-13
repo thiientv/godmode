@@ -25,8 +25,6 @@ private data, prompt-injection exploits, or other sensitive reports.
 Godmode cannot guarantee identical activation or output across models and
 clients. Provider APIs, deployment environments, model availability, external
 plugins, and copied or locally modified skills are outside maintainer control.
-The examples under `examples/` are research checkouts and are not supported or
-distributed.
 
 Breaking skill-name and routing changes may occur before 1.0 and will be listed
 in the changelog. Published releases receive fixes on the latest minor version;

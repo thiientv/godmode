@@ -127,8 +127,6 @@ cp -R /absolute/path/to/godmode/skills/* .agents/skills/
 ```
 
 Clients that support a skills installer can install the repository directly.
-The `examples/` directory is research-only, ignored by Git, and not required
-at runtime.
 
 ### Claude Code
 
@@ -143,10 +141,9 @@ discovery remains responsible for selecting a capability.
 ### Codex
 
 The repository includes `.codex-plugin/plugin.json` for direct loading and a
-local marketplace entry under `.agents/plugins/`. The marketplace deliberately
-publishes only `skills/`, so the ignored research clones under `examples/` are
-not part of the installed plugin. Install it through the Codex plugin browser
-or local marketplace workflow, then verify that the expected skills appear.
+local marketplace entry under `.agents/plugins/`. The marketplace publishes
+only `skills/`. Install it through the Codex plugin browser or local marketplace
+workflow, then verify that the expected skills appear.
 
 Each public capability uses the standard Agent Skills layout: a directory with
 `SKILL.md`, concise routing metadata, and optional on-demand references or
@@ -252,5 +249,4 @@ will behave identically.
 
 ## License
 
-MIT. The repositories under `examples/` retain their own licenses and are not
-part of the Godmode package.
+MIT.

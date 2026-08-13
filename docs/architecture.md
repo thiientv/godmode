@@ -145,8 +145,7 @@ aggregate claim. None of these layers is allowed to stand in for the others.
 - Claude Code uses `.claude-plugin/` plus the thin `hooks/` adapter.
 - Codex direct loading uses `.codex-plugin/`; the marketplace entry publishes
   only `skills/`, whose nested `.codex-plugin/plugin.json` is the package
-  manifest. This prevents the ignored research clones under `examples/` from
-  entering a local plugin package.
+  manifest, keeping the local plugin package surface intentionally narrow.
 - Other harnesses can copy the standard skill directories or add their own
   adapter without changing the skill bodies.
 

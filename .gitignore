@@ -1,6 +1,3 @@
-# Research clones are intentionally local-only and must never ship in Godmode.
-/examples/
-
 # Local tooling and generated files.
 __pycache__/
 *.py[cod]

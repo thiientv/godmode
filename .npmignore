@@ -4,7 +4,6 @@ __pycache__/
 skills/**/__pycache__/
 skills/**/*.pyc
 skills/**/*.pyo
-examples/
 evals/results/
 node_modules/
 .DS_Store

@@ -1,10 +1,9 @@
 # Reference research and design provenance
 
-The requested repositories were cloned with `git clone --depth 1` into
-`examples/` on 2026-08-13. The directory is Git-ignored, is not a package input,
-and is not required at runtime. The implementation in this repository was
-rewritten from the ideas below; no reference `SKILL.md`, script, dataset,
-template, or proprietary document was copied into Godmode.
+The external projects listed below were reviewed on 2026-08-13. The
+implementation in this repository was rewritten from the ideas below; no
+reference `SKILL.md`, script, dataset, template, or proprietary document was
+copied into Godmode.
 
 ## Research matrix
 
@@ -59,8 +58,8 @@ is not marked as proof.
 The researched repositories were checked for their top-level license or notice
 before design decisions were recorded. Godmode is MIT. The implementation uses
 original wording, original small reference templates, and original helper code.
-The large CSVs, scripts, examples, screenshots, and platform templates in
-`examples/` remain outside the package and are not imported at runtime.
+Reference datasets, scripts, screenshots, and platform templates remain
+external and are not imported at runtime.
 
 If a future contribution adapts substantial text, data, code, or assets, it
 must record the source license, attribution requirement, exact adapted paths,

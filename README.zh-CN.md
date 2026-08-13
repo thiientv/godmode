@@ -112,7 +112,7 @@ mkdir -p .agents/skills
 cp -R /absolute/path/to/godmode/skills/* .agents/skills/
 ```
 
-支持 skills installer 的客户端可以直接安装本仓库。`examples/` 仅用于本地研究，已被 Git 忽略，运行时不需要它。
+支持 skills installer 的客户端可以直接安装本仓库。
 
 ### Claude Code
 
@@ -125,7 +125,7 @@ claude plugin validate /absolute/path/to/godmode
 
 ### Codex
 
-仓库包含用于直接加载的 `.codex-plugin/plugin.json`，以及 `.agents/plugins/` 下的本地 marketplace 条目。Marketplace 只发布 `skills/`，因此 `examples/` 中被忽略的研究仓库不会进入安装包。请通过 Codex 插件浏览器或本地 marketplace 工作流安装，并确认预期技能已成功显示。
+仓库包含用于直接加载的 `.codex-plugin/plugin.json`，以及 `.agents/plugins/` 下的本地 marketplace 条目。Marketplace 只发布 `skills/`。请通过 Codex 插件浏览器或本地 marketplace 工作流安装，并确认预期技能已成功显示。
 
 每项公开能力都采用标准 Agent Skills 目录结构：独立目录中包含 `SKILL.md`、简洁的路由元数据，以及可选的按需参考资料或确定性辅助工具。Godmode 刻意保持为可移植目录，而不是专有编排运行时。
 
@@ -210,4 +210,4 @@ Godmode 目前是 pre-1.0 public preview。技能目录、确定性辅助工具�
 
 ## 许可证
 
-MIT。`examples/` 下的仓库保留各自许可证，且不属于 Godmode 分发包。
+MIT。

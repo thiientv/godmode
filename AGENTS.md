@@ -13,9 +13,8 @@ Godmode is a portable Agent Skills project. Read `docs/architecture.md` and
   `SKILL.md` with valid YAML frontmatter. Keep the body focused and move
   optional detail to one-level-deep `references/` files.
 - Write behavior from first principles. Do not copy implementation text,
-  datasets, scripts, or proprietary material from `examples/`.
-- Treat `examples/` as research-only. It is ignored by Git and must not become
-  a runtime dependency or package input.
+  datasets, scripts, or proprietary material from reference projects.
+- Keep local research checkouts outside the runtime and package inputs.
 - Prefer standard-library validation and deterministic tests. Do not add a
   runtime dependency for routing when native skill discovery is sufficient.
   Domain helpers may be dependency-free scripts when they produce repeatable
