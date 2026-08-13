@@ -1,0 +1,12 @@
+{
+  "skill": "writing-skills",
+  "positive": [
+    {"prompt": "Create an Agent Skill with SKILL.md frontmatter, precise triggers, references, and routing evals.", "top_k": 1},
+    {"prompt": "Improve a skill's progressive disclosure, helper scripts, and negative activation cases.", "top_k": 1},
+    {"prompt": "Review this skill catalog contribution for context cost, naming, links, and validation evidence.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Write an architecture decision record documenting alternatives and consequences.", "owner": "documentation-and-adrs"},
+    {"prompt": "Choose which Godmode skills should compose for this task.", "owner": "using-godmode"}
+  ]
+}

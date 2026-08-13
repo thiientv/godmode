@@ -1,0 +1,12 @@
+{
+  "skill": "browser-testing",
+  "positive": [
+    {"prompt": "Test the real browser flow with Playwright, semantic locators, loading/error assertions, and responsive screenshots.", "top_k": 1},
+    {"prompt": "Debug the web checkout with keyboard navigation, network assertions, stable fixtures, and a mobile viewport.", "top_k": 1},
+    {"prompt": "Create a deterministic visual baseline and review screenshot diffs before updating it.", "top_k": 2}
+  ],
+  "negative": [
+    {"prompt": "Build the new interface and choose its typography, tokens, layout, and motion direction.", "owner": "frontend-design"},
+    {"prompt": "Audit the existing rendered UI and report prioritized accessibility and hierarchy findings.", "owner": "ui-ux-review"}
+  ]
+}

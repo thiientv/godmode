@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Research"
+  short_description: "Ground technical decisions in authoritative sources."
+  default_prompt: "Use $technical-research to verify the current APIs and constraints for this task."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Incident Response"
+  short_description: "Stabilize and investigate production incidents."
+  default_prompt: "Use $incident-response to coordinate mitigation, evidence, recovery, and follow-up."

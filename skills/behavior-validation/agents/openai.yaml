@@ -1,0 +1,4 @@
+interface:
+  display_name: "Behavior Validation"
+  short_description: "Validate observable behavior from the outside."
+  default_prompt: "Use $behavior-validation to test this product against a source-blind behavior contract."

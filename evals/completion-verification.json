@@ -1,0 +1,12 @@
+{
+  "skill": "completion-verification",
+  "positive": [
+    {"prompt": "Before a completion claim, fill an evidence map with fresh test/build results and explicit limits.", "top_k": 1},
+    {"prompt": "Verify passing, compatibility, and release claims against the actual requirements instead of assuming success.", "top_k": 1},
+    {"prompt": "Map requirements to exact commands, exit status, fresh results, and remaining limits before saying done.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Write the test-first failing case and implement the smallest behavior change.", "owner": "test-driven-development"},
+    {"prompt": "Investigate why the test fails and find the root cause before fixing it.", "owner": "root-cause-debugging"}
+  ]
+}

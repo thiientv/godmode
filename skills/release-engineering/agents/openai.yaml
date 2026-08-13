@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release Engineering"
+  short_description: "Design evidence-based releases and rollbacks."
+  default_prompt: "Use $release-engineering to prepare a staged release with measurable rollback gates."

@@ -1,0 +1,12 @@
+{
+  "skill": "documentation-and-adrs",
+  "positive": [
+    {"prompt": "Update contributor documentation with an ADR, README, and runbook from repository facts and architecture decisions.", "top_k": 1},
+    {"prompt": "Update the README and runbook from repository facts, tested commands, and explicit operational limits.", "top_k": 1},
+    {"prompt": "Document the migration decision and contributor workflow with links and verification evidence.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Create an Agent Skill with frontmatter, routing boundaries, progressive disclosure, and eval fixtures.", "owner": "writing-skills"},
+    {"prompt": "Write the exact implementation plan for the multi-step architecture change.", "owner": "implementation-planning"}
+  ]
+}

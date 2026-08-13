@@ -1,0 +1,12 @@
+{
+  "skill": "api-and-interface-design",
+  "positive": [
+    {"prompt": "Design an HTTP API contract with validation, stable errors, idempotency, pagination, auth, and versioning.", "top_k": 1},
+    {"prompt": "Review this webhook and event interface for retries, ordering, duplicate delivery, and compatibility.", "top_k": 1},
+    {"prompt": "Define the CLI or RPC request and response contract, including failure semantics and observability.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Design the relational schema, indexes, migration, retention, and recovery plan for the API data.", "owner": "database-design"},
+    {"prompt": "Threat-model the endpoint for authorization, injection, SSRF, secrets, and abuse paths.", "owner": "security-and-hardening"}
+  ]
+}

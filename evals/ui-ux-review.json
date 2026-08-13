@@ -1,0 +1,12 @@
+{
+  "skill": "ui-ux-review",
+  "positive": [
+    {"prompt": "Audit this existing interface for hierarchy, accessibility, focus, responsive layout, and visual anti-patterns.", "top_k": 1},
+    {"prompt": "Review a screenshot and frontend diff for empty states, contrast, content clarity, and interaction quality.", "top_k": 1},
+    {"prompt": "Run a UI/UX quality pass on the rendered page and report prioritized findings with evidence.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Build a new page with a coherent design direction, typography, tokens, and responsive components.", "owner": "frontend-design"},
+    {"prompt": "Use Playwright to exercise a browser flow and update stable screenshot baselines.", "owner": "browser-testing"}
+  ]
+}

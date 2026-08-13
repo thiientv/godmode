@@ -1,0 +1,12 @@
+{
+  "skill": "root-cause-debugging",
+  "positive": [
+    {"prompt": "Investigate a flaky test by reproducing, minimizing, ranking hypotheses, and finding the root cause.", "top_k": 1},
+    {"prompt": "An unexpected service response needs a minimal reproduction, ranked hypotheses, and a trace to the first incorrect state.", "top_k": 1},
+    {"prompt": "Trace the first incorrect state across service boundaries and lock the fix with a regression test.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Write the failing test first and implement the behavior with red-green-refactor.", "owner": "test-driven-development"},
+    {"prompt": "Review the branch diff for contract gaps and security risks before merge.", "owner": "requesting-code-review"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "skill": "performance-optimization",
+  "positive": [
+    {"prompt": "Profile the p95 latency and memory of a representative workload, then compare one optimization with a baseline.", "top_k": 1},
+    {"prompt": "Investigate a rendering or query performance regression with traces, measurement, and before-after evidence.", "top_k": 1},
+    {"prompt": "Reduce bundle size or database cost without weakening correctness and add a performance budget check.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Find the root cause of the unexpected result by reproducing and minimizing the failure.", "owner": "root-cause-debugging"},
+    {"prompt": "Design logs, metrics, traces, alerts, and correlation for diagnosing production latency.", "owner": "observability-and-instrumentation"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "skill": "test-strategy",
+  "positive": [
+    {"prompt": "Create a risk matrix that maps critical user journeys to test levels, environments, data, and release gates.", "top_k": 1},
+    {"prompt": "Choose risk-based coverage for a release including accessibility, security, browser, migration, and recovery checks.", "top_k": 1},
+    {"prompt": "Plan test ownership and evidence for a multi-service feature instead of chasing one universal coverage percentage.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Write one failing behavior test and implement with red-green-refactor.", "owner": "test-driven-development"},
+    {"prompt": "Exercise the real user path in a browser with semantic assertions and screenshots.", "owner": "browser-testing"}
+  ]
+}

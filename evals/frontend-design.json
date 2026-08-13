@@ -1,0 +1,12 @@
+{
+  "skill": "frontend-design",
+  "positive": [
+    {"prompt": "Design a new responsive dashboard with deliberate typography, semantic tokens, states, and accessible interactions.", "top_k": 1},
+    {"prompt": "Build a polished landing page with visual direction, responsive layout, motion, and real rendered verification.", "top_k": 1},
+    {"prompt": "Refactor this component system to improve hierarchy, design tokens, keyboard states, and mobile behavior.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Audit the existing page and report actionable UI/UX findings without implementing it.", "owner": "ui-ux-review"},
+    {"prompt": "Test the real browser flow with semantic assertions and responsive screenshots.", "owner": "browser-testing"}
+  ]
+}

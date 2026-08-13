@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "subject": "godmode-core-workflows",
+  "cases": [
+    {
+      "id": "design-before-build",
+      "prompt": "Use the installed Godmode skills to help design a multi-tenant audit-log export feature. The request is intentionally ambiguous. Do not implement it.",
+      "expected": "The agent explores users, scope, constraints, data/security risks, alternatives, non-goals, and acceptance evidence before recommending a direction; it does not edit code.",
+      "assertions": [
+        {"id": "no-implementation", "description": "No production code or configuration is modified.", "required": true, "weight": 2},
+        {"id": "material-unknowns", "description": "Questions or assumptions cover tenancy, retention, authorization, export size, and delivery semantics.", "required": true},
+        {"id": "options", "description": "At least two viable approaches are compared with a recommendation and trade-offs."},
+        {"id": "acceptance", "description": "The output defines observable acceptance evidence and non-goals."}
+      ]
+    },
+    {
+      "id": "debug-before-fix",
+      "prompt": "A deterministic test now fails only when the full suite runs. Use Godmode to diagnose it. Do not apply a fix until the root cause is evidenced.",
+      "expected": "The agent reproduces and minimizes the order-dependent failure, ranks hypotheses, traces the first incorrect state, and separates cause from symptom before proposing a fix.",
+      "assertions": [
+        {"id": "reproduction", "description": "A focused reproduction and relevant baseline are established.", "required": true, "weight": 2},
+        {"id": "hypotheses", "description": "Multiple plausible hypotheses are ranked and tested."},
+        {"id": "first-bad-state", "description": "Evidence identifies the first incorrect shared state or ordering transition.", "required": true},
+        {"id": "no-premature-fix", "description": "No fix is made before root-cause evidence exists.", "required": true}
+      ]
+    },
+    {
+      "id": "safe-live-migration",
+      "prompt": "Design a migration from a legacy webhook signature to a new scheme while third-party consumers upgrade over six weeks. Existing deliveries and retries cannot break.",
+      "expected": "The plan baselines current semantics, supports coexistence, stages consumer cutover, observes old usage, tests mixed versions and retries, and defines rollback/forward-fix and removal criteria.",
+      "assertions": [
+        {"id": "compatibility", "description": "Old and new consumers coexist without a big-bang cutover.", "required": true, "weight": 2},
+        {"id": "state-semantics", "description": "Delivery IDs, retries, ordering, errors, and signature verification are covered."},
+        {"id": "phase-gates", "description": "Each phase has entry, exit, abort, and observation criteria.", "required": true},
+        {"id": "removal", "description": "Legacy removal depends on measured consumer usage and a support deadline."}
+      ]
+    },
+    {
+      "id": "source-blind-validation",
+      "prompt": "Validate a runnable CLI against its behavior contract. The source checkout is present but must not be inspected.",
+      "expected": "The agent stays source-blind, exercises public commands and negative cases, runs anti-fake probes, redacts evidence, and reports every clause as pass/fail/blocked/out-of-scope.",
+      "assertions": [
+        {"id": "source-blind", "description": "No source, diff, internal test, or Git history is inspected.", "required": true, "weight": 2},
+        {"id": "contract-coverage", "description": "Every relevant contract clause receives a status.", "required": true},
+        {"id": "anti-fake", "description": "Inputs or state are varied to detect hard-coded success."},
+        {"id": "redaction", "description": "Captured evidence excludes secrets and unrelated private data.", "required": true}
+      ]
+    },
+    {
+      "id": "ui-runtime-proof",
+      "prompt": "Improve an existing account settings page using Godmode. Preserve its design system and prove the result across real states and viewports.",
+      "expected": "The agent extracts the existing system, makes a coherent scoped UI change, and validates primary/loading/error/long-content behavior at narrow, intermediate, and desktop widths with keyboard and accessibility evidence.",
+      "assertions": [
+        {"id": "system-extracted", "description": "Existing tokens, components, fonts, breakpoints, and visual conventions are inspected before design changes.", "required": true},
+        {"id": "state-matrix", "description": "Primary, loading, error, and long-content states are checked at three viewport classes.", "required": true, "weight": 2},
+        {"id": "keyboard", "description": "The primary flow is traversed by keyboard with focus observations."},
+        {"id": "runtime-evidence", "description": "Rendered screenshots or equivalent runtime observations are captured; source alone is not claimed as visual proof.", "required": true}
+      ]
+    },
+    {
+      "id": "release-with-guardrails",
+      "prompt": "Prepare a risky search-ranking release for production. The new model can be disabled independently from code deployment.",
+      "expected": "The agent creates a release contract, immutable artifact and configuration identity, baseline metrics, staged rollout, promotion/abort thresholds, kill-switch test, post-deploy proof, and cleanup ownership.",
+      "assertions": [
+        {"id": "risk-gates", "description": "Go/no-go evidence is proportional to ranking quality, latency, cost, safety, and user impact."},
+        {"id": "rollout", "description": "Internal/canary/partial/full stages have observation and promotion gates.", "required": true, "weight": 2},
+        {"id": "abort", "description": "Predefined kill-switch or rollback thresholds and verification are explicit.", "required": true},
+        {"id": "cleanup", "description": "Temporary flags or compatibility paths have an owner and expiry."}
+      ]
+    }
+  ]
+}

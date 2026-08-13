@@ -1,0 +1,12 @@
+{
+  "skill": "solution-design",
+  "positive": [
+    {"prompt": "Explore ambiguous product requirements, users, constraints, risks, and design alternatives before coding.", "top_k": 1},
+    {"prompt": "Explore ambiguous product and engineering intent, users, constraints, alternatives, risks, acceptance criteria, and an approved design direction.", "top_k": 1},
+    {"prompt": "Turn this unclear feature idea into an approved design direction with acceptance criteria.", "top_k": 2}
+  ],
+  "negative": [
+    {"prompt": "Write an exact file-by-file implementation plan for this approved design.", "owner": "implementation-planning"},
+    {"prompt": "Reproduce the failing test and trace the root cause before applying a fix.", "owner": "root-cause-debugging"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "skill": "plan-execution",
+  "positive": [
+    {"prompt": "Execute the existing written plan one task at a time, recording implementation checkpoints.", "top_k": 1},
+    {"prompt": "Continue the approved implementation checklist and stop when its planned interface contradicts the repository.", "top_k": 1},
+    {"prompt": "Run the written checklist, record each checkpoint, and integrate the completed slices.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Write the detailed file-by-file implementation plan before touching code.", "owner": "implementation-planning"},
+    {"prompt": "Use red-green-refactor and write the failing test before implementation.", "owner": "test-driven-development"}
+  ]
+}

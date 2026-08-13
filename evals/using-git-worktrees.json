@@ -1,0 +1,12 @@
+{
+  "skill": "using-git-worktrees",
+  "positive": [
+    {"prompt": "Create an isolated Git worktree and branch for parallel agent edits without disturbing local changes.", "top_k": 1},
+    {"prompt": "Use git worktree list, git worktree add, and git worktree remove/prune for an isolated branch.", "top_k": 1},
+    {"prompt": "Use Git worktrees to isolate a risky experiment and preserve the current checkout.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Finish the development branch by choosing merge, pull request, keep, or discard after verification.", "owner": "branch-integration"},
+    {"prompt": "Dispatch independent workstreams to parallel agents with disjoint write sets.", "owner": "dispatching-parallel-agents"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "skill": "using-godmode",
+  "positive": [
+    {"prompt": "Which Godmode skills should compose for a new API feature with a database migration?", "top_k": 1},
+    {"prompt": "Choose the right Agent Skills workflow for this coding task and explain the handoff.", "top_k": 1},
+    {"prompt": "Decide whether to invoke and compose Godmode capabilities for this coding request.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Explore ambiguous requirements and alternatives for the feature before implementation.", "owner": "solution-design"},
+    {"prompt": "Write a failing test and make the smallest implementation pass.", "owner": "test-driven-development"}
+  ]
+}

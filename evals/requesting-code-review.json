@@ -1,0 +1,12 @@
+{
+  "skill": "requesting-code-review",
+  "positive": [
+    {"prompt": "Prepare an independent code review packet with the diff boundary, contract, risks, and evidence.", "top_k": 2},
+    {"prompt": "Ask a reviewer to inspect this pull request before merge with specific risk questions.", "top_k": 1},
+    {"prompt": "Prepare a review packet with the compare point, changed files, risk questions, and reviewer questions.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Process the review comments, reproduce each finding, and apply in-scope fixes.", "owner": "receiving-code-review"},
+    {"prompt": "Run fresh checks to prove the change is complete and report remaining limits.", "owner": "completion-verification"}
+  ]
+}

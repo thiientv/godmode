@@ -1,0 +1,12 @@
+{
+  "skill": "database-design",
+  "positive": [
+    {"prompt": "Design a database schema with invariants, access paths, indexes, migration, retention, and restore behavior.", "top_k": 1},
+    {"prompt": "Review this data model and expand-migrate-contract rollout for consistency and rollback safety.", "top_k": 1},
+    {"prompt": "Choose the persistence boundary and query-driven indexes for a high-volume feature.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Define the API request, response, errors, idempotency, and compatibility contract.", "owner": "api-and-interface-design"},
+    {"prompt": "Enumerate SSRF, injection, privilege escalation, and secrets exposure abuse paths.", "owner": "security-and-hardening"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "skill": "subagent-driven-development",
+  "positive": [
+    {"prompt": "Execute this approved plan with a fresh implementer and reviewer agent for each task.", "top_k": 1},
+    {"prompt": "Use task-scoped subagents, focused tests, review gates, and coordinator-owned integration.", "top_k": 1},
+    {"prompt": "Delegate each plan task to an implementer agent, then send its diff to a fresh reviewer agent before continuing.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Split independent parallel workstreams with disjoint write sets and integration ownership.", "owner": "dispatching-parallel-agents"},
+    {"prompt": "Write an implementation plan with exact files and test steps before implementation.", "owner": "implementation-planning"}
+  ]
+}

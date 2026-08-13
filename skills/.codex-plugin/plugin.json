@@ -1,0 +1,29 @@
+{
+  "name": "godmode",
+  "version": "0.3.0",
+  "description": "Composable engineering workflows and expert capabilities for AI coding agents.",
+  "author": {
+    "name": "Godmode contributors",
+    "url": "https://github.com/thiientv/godmode"
+  },
+  "homepage": "https://github.com/thiientv/godmode",
+  "repository": "https://github.com/thiientv/godmode",
+  "license": "MIT",
+  "skills": "./",
+  "interface": {
+    "displayName": "Godmode",
+    "shortDescription": "Evidence-driven workflows and engineering expertise",
+    "longDescription": "Godmode gives coding agents composable skills for solution design, planning, execution, TDD, debugging, review, behavior validation, migrations, releases, incidents, agent evaluation, and focused engineering expertise.",
+    "developerName": "Godmode contributors",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me plan and implement this change with the right engineering workflow",
+      "Review this interface and find the highest-impact UX problems"
+    ]
+  }
+}

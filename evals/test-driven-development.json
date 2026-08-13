@@ -1,0 +1,12 @@
+{
+  "skill": "test-driven-development",
+  "positive": [
+    {"prompt": "Write a failing regression test, watch it fail, then implement the smallest red-green-refactor change.", "top_k": 1},
+    {"prompt": "Use test-first development for this new behavior and verify the failure is meaningful.", "top_k": 1},
+    {"prompt": "Add a behavior test before production code and keep the suite green while refactoring.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Create a risk matrix and choose test levels and release gates for the whole feature.", "owner": "test-strategy"},
+    {"prompt": "Reproduce and minimize the existing failure before proposing a fix.", "owner": "root-cause-debugging"}
+  ]
+}

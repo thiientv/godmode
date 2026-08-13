@@ -1,0 +1,12 @@
+{
+  "skill": "implementation-planning",
+  "positive": [
+    {"prompt": "Write a detailed executable implementation plan with exact files, interfaces, tests, and commands.", "top_k": 1},
+    {"prompt": "Break the approved multi-step migration into independently testable tasks.", "top_k": 1},
+    {"prompt": "Write a comprehensive implementation plan with Markdown Tasks, Files, Interfaces, Run commands, and Expected results.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Execute the existing implementation plan task by task and run the checks.", "owner": "plan-execution"},
+    {"prompt": "Ask the questions and compare alternatives for an ambiguous feature idea.", "owner": "solution-design"}
+  ]
+}

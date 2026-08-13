@@ -1,0 +1,12 @@
+{
+  "skill": "security-and-hardening",
+  "positive": [
+    {"prompt": "Threat-model this service for authorization flaws, injection, SSRF, secrets exposure, and abuse.", "top_k": 1},
+    {"prompt": "Threat-model and harden the service against authorization flaws, injection, SSRF, secrets exposure, privacy loss, and abuse.", "top_k": 1},
+    {"prompt": "Review the security and privacy risks of this migration and public endpoint.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Design stable request and response contracts, retries, and versioning for the endpoint.", "owner": "api-and-interface-design"},
+    {"prompt": "Measure p95 latency and profile the bottleneck before optimizing the service.", "owner": "performance-optimization"}
+  ]
+}

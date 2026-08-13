@@ -1,0 +1,12 @@
+{
+  "skill": "observability-and-instrumentation",
+  "positive": [
+    {"prompt": "Design structured logs, metrics, traces, correlation IDs, alerts, and a runbook for a production failure.", "top_k": 1},
+    {"prompt": "Instrument cross-service latency with correlation IDs, bounded cardinality, structured metrics, and traces.", "top_k": 1},
+    {"prompt": "Define the operational SLO signal, metric, log, trace, alert, and runbook for this outage.", "top_k": 2}
+  ],
+  "negative": [
+    {"prompt": "Profile p95 performance and compare a measured optimization with a baseline.", "owner": "performance-optimization"},
+    {"prompt": "Design the API contract including errors, retries, versioning, and compatibility.", "owner": "api-and-interface-design"}
+  ]
+}

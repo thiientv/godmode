@@ -1,0 +1,12 @@
+{
+  "skill": "branch-integration",
+  "positive": [
+    {"prompt": "Finish this development branch by inspecting the final diff, proof, integration options, and cleanup.", "top_k": 1},
+    {"prompt": "After feature work, present merge, pull request, keep, or discard choices without deleting user work.", "top_k": 1},
+    {"prompt": "Close this completed development branch after the final diff and proof by choosing merge, pull request, keep, discard, and cleanup.", "top_k": 1}
+  ],
+  "negative": [
+    {"prompt": "Create a Git worktree for isolated parallel development and inspect existing worktrees.", "owner": "using-git-worktrees"},
+    {"prompt": "Create an evidence map for every requirement with exact commands, exit status, fresh result, and remaining limit before saying done.", "owner": "completion-verification"}
+  ]
+}

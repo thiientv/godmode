@@ -1,0 +1,12 @@
+{
+  "skill": "dispatching-parallel-agents",
+  "positive": [
+    {"prompt": "Split this work among parallel agents with disjoint write sets and explicit integration ownership.", "top_k": 1},
+    {"prompt": "Dispatch independent subtasks while preserving dependency ordering and a merge plan.", "top_k": 1},
+    {"prompt": "Design safe parallel agent prompts for separate scripts, tests, and adapters.", "top_k": 2}
+  ],
+  "negative": [
+    {"prompt": "Run an implementer and fresh reviewer agent for every task in an approved plan.", "owner": "subagent-driven-development"},
+    {"prompt": "Create an isolated Git worktree before concurrent branch edits.", "owner": "using-git-worktrees"}
+  ]
+}

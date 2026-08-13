@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Evaluation"
+  short_description: "Evaluate agents, prompts, tools, and skills."
+  default_prompt: "Use $agent-evaluation to build a baseline and regression eval for this agent workflow."

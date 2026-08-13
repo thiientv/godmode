@@ -1,0 +1,4 @@
+interface:
+  display_name: "Safe Migrations"
+  short_description: "Plan compatible, reversible system migrations."
+  default_prompt: "Use $safe-migrations to design a compatibility-preserving migration and rollout."

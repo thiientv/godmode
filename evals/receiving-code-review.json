@@ -1,0 +1,12 @@
+{
+  "skill": "receiving-code-review",
+  "positive": [
+    {"prompt": "Process pull request feedback by classifying findings, reproducing defects, and re-running proof.", "top_k": 1},
+    {"prompt": "Respond to code review comments without blindly accepting preferences or widening scope.", "top_k": 1},
+    {"prompt": "Triage a reviewer comment as defect, proof gap, clarification, preference, or out-of-scope and decide the response.", "top_k": 2}
+  ],
+  "negative": [
+    {"prompt": "Prepare a review request packet for an independent reviewer before merge.", "owner": "requesting-code-review"},
+    {"prompt": "Review an existing interface for focus, responsive, and hierarchy problems.", "owner": "ui-ux-review"}
+  ]
+}
