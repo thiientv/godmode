@@ -15,6 +15,7 @@ Contradictions:
 Unknowns that can change the implementation:
 Out of scope:
 Recommended next skill:
+Optional durable walkthrough and audience:
 ```
 
 Keep paths and symbols specific. A map is not a recursive directory listing.

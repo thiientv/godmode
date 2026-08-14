@@ -42,7 +42,8 @@ Every public capability must:
 - avoid copying reference text or vendor-specific material without a recorded
   license and attribution decision;
 - include `evals/<name>.json` with at least three positive and two negative
-  routing cases.
+  routing cases;
+- add the capability to `catalog.json` and both README catalog tables.
 
 Behavior-changing workflow or helper contributions should also add or update a
 case under `evals/behavior/`, then record an isolated baseline/candidate run
@@ -69,6 +70,10 @@ Use a small red/green cycle when changing behavior:
    python3 -m unittest discover -s tests -p 'test_*.py' -v
    ```
 
+Run `npm run catalog:health` to review context size, bundled resources, changed
+skills, and possible routing-description overlap. Treat the report as a review
+signal rather than an automatic retirement decision.
+
 For plugin manifest changes, run:
 
 ```bash
@@ -87,6 +92,8 @@ they report evidence to investigate, not an absolute design score.
 
 Update the README catalog and architecture notes when public behavior changes.
 Update `docs/research.md` if a reference project influences a new decision.
+Record client evidence in `compatibility/evidence.json` and render it with
+`python3 scripts/compatibility.py write`.
 Never import local research checkouts or make runtime behavior depend on their
 presence.
 

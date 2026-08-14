@@ -215,6 +215,9 @@ without depending on another repository's public vocabulary or compact aliases.
 
 ```bash
 npm run check
+npm run catalog:health
+python3 scripts/repository_security.py
+python3 scripts/compatibility.py check
 python3 skills/frontend-design/scripts/design_system.py \
   --product "analytics dashboard" --tone technical --stack react
 python3 skills/frontend-design/scripts/extract_design_system.py ./path/to/ui
@@ -223,7 +226,8 @@ python3 scripts/behavior_eval.py validate evals/behavior/core-workflows.json
 ```
 
 The repository gate validates frontmatter, local links, body limits, manifest
-shape, 33 routing fixtures, behavior-eval case schemas, and helper tests. See
+shape, one routing fixture per skill, behavior-eval case schemas, catalog and
+compatibility drift, workflow security, public-file safety, and helper tests. See
 [`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/catalog.md`](docs/catalog.md), and
 [`docs/research.md`](docs/research.md) for authoring and provenance details.
 See [`SUPPORT.md`](SUPPORT.md), [`SECURITY.md`](SECURITY.md), and

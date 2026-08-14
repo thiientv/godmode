@@ -4,9 +4,10 @@ description: >-
   Maps an unfamiliar or large codebase before implementation by locating entry
   points, ownership, execution paths, conventions, tests, dependencies, change
   hotspots, and unresolved questions. Use when onboarding to a repository,
-  scoping a cross-cutting change, preparing a handoff, or when the agent is
-  guessing where behavior lives. Not for diagnosing one reproduced failure or
-  designing a new architecture before the current system is understood.
+  scoping a cross-cutting change, preparing a handoff or reusable CodeTour,
+  explaining a subsystem, or when the agent is guessing where behavior lives.
+  Not for diagnosing one reproduced failure or designing a new architecture
+  before the current system is understood.
 ---
 
 # Codebase Orientation
@@ -32,6 +33,9 @@ interpreting code. If a code index exists, use it before text search.
 5. Separate verified facts, inferences, contradictions, and unknowns.
 
 Use [orientation-map.md](references/orientation-map.md) for the output shape.
+When the map should become a reusable, line-anchored walkthrough, read
+[code-tour.md](references/code-tour.md) and generate a validated `.tour`
+artifact instead of inventing another documentation format.
 
 ## Bound the context
 

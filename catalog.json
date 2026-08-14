@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "groups": [
+    {
+      "id": "workflow",
+      "label": "Core workflow skills",
+      "skills": [
+        "using-godmode",
+        "solution-design",
+        "implementation-planning",
+        "plan-execution",
+        "test-driven-development",
+        "root-cause-debugging",
+        "requesting-code-review",
+        "receiving-code-review",
+        "completion-verification",
+        "dispatching-parallel-agents",
+        "subagent-driven-development",
+        "using-git-worktrees",
+        "branch-integration",
+        "writing-skills"
+      ]
+    },
+    {
+      "id": "engineering",
+      "label": "Engineering capabilities",
+      "skills": [
+        "frontend-design",
+        "ui-ux-review",
+        "api-and-interface-design",
+        "database-design",
+        "security-and-hardening",
+        "performance-optimization",
+        "test-strategy",
+        "browser-testing",
+        "documentation-and-adrs",
+        "observability-and-instrumentation",
+        "codebase-orientation",
+        "technical-research",
+        "safe-migrations",
+        "release-engineering",
+        "architecture-review",
+        "code-simplification",
+        "behavior-validation",
+        "agent-evaluation",
+        "incident-response"
+      ]
+    }
+  ]
+}

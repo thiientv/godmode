@@ -71,8 +71,9 @@ activation information because the body is loaded only after discovery. The
 repository validator also checks name/directory alignment, local links, body
 limits, frontmatter shape, and one routing fixture per public skill.
 
-The public catalog currently has 33 skills: 14 core workflow/meta skills and 19
-engineering, operational, and evaluation capabilities. Every entry has a
+`catalog.json` is the machine-readable source for the workflow and engineering
+groups. Repository validation requires it to match discovered skills, routing
+fixtures, both README catalogs, and the catalog narrative. Every entry has a
 distinct activation boundary; exploratory testing, contract testing, handoff,
 transcript handling, CI mechanics, and provider knowledge remain references or
 plugin-pack candidates rather than public micro-skills.
@@ -157,10 +158,12 @@ model's hidden behavior.
 
 The repository uses only the Python standard library for validation and tests.
 `npm run check` runs frontmatter/link/body validation, manifest validation,
-routing fixtures, behavior case validation, helper tests, and catalog tests.
-The UI and evaluation helpers expose `--help` and have focused tests. The
-toolchain is intentionally not a hidden runtime dependency of installed
-skills.
+routing fixtures, behavior case validation, catalog and compatibility drift,
+workflow and public-file security, helper tests, and catalog tests. Release
+archives are extracted and validated before publication. Catalog health remains
+advisory so rough token estimates or lexical similarity cannot retire a skill
+automatically. The toolchain is intentionally not a hidden runtime dependency
+of installed skills.
 
 ## Non-goals
 

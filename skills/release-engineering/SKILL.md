@@ -39,6 +39,12 @@ path. A green generic pipeline is not proof of the release's critical behavior.
 5. Roll back or disable immediately when a predefined threshold is crossed.
 6. Verify recovery, communicate status, and preserve the timeline.
 
+For canaries and production observation windows, use
+[post-deploy-verification.md](references/post-deploy-verification.md). Confirm
+the deployed build marker, run critical browser journeys through
+`browser-testing`, and record each promote, hold, or rollback decision against
+fresh baseline evidence.
+
 Use immutable artifacts across environments. Keep release credentials out of
 logs and command lines. Require explicit authority for production mutation.
 
@@ -46,7 +52,8 @@ logs and command lines. Require explicit authority for production mutation.
 
 Verify critical paths after deployment, monitor delayed jobs and regional
 effects, remove stale flags and compatibility paths on schedule, update release
-notes, and create owned follow-ups for non-blocking debt. Use
+notes, and create owned follow-ups for non-blocking debt. Never substitute a
+successful deployment command for an observation window. Use
 `incident-response` if live impact begins and `safe-migrations` for stateful
 cutovers.
 

@@ -191,6 +191,9 @@ claude plugin validate /absolute/path/to/godmode
 
 ```bash
 npm run check
+npm run catalog:health
+python3 scripts/repository_security.py
+python3 scripts/compatibility.py check
 python3 skills/frontend-design/scripts/design_system.py \
   --product "analytics dashboard" --tone technical --stack react
 python3 skills/frontend-design/scripts/extract_design_system.py ./path/to/ui
@@ -198,7 +201,7 @@ python3 skills/ui-ux-review/scripts/audit_ui.py ./path/to/ui
 python3 scripts/behavior_eval.py validate evals/behavior/core-workflows.json
 ```
 
-仓库门禁会验证 frontmatter、本地链接、正文长度、manifest 结构、33 份路由评估、behavior-eval case schema 和辅助工具测试。作者与贡献说明请参阅 [`CONTRIBUTING.md`](CONTRIBUTING.md)、[`docs/catalog.md`](docs/catalog.md) 和 [`docs/research.md`](docs/research.md)。支持、安全和发布说明请参阅 [`SUPPORT.md`](SUPPORT.md)、[`SECURITY.md`](SECURITY.md) 和 [`CHANGELOG.md`](CHANGELOG.md)。客户端验证证据及其限制记录在 [`docs/compatibility.md`](docs/compatibility.md) 中。
+仓库门禁会验证 frontmatter、本地链接、正文长度、manifest 结构、每项 skill 的路由评估、behavior-eval case schema、catalog 与 compatibility 漂移、workflow 安全、公开文件安全和辅助工具测试。作者与贡献说明请参阅 [`CONTRIBUTING.md`](CONTRIBUTING.md)、[`docs/catalog.md`](docs/catalog.md) 和 [`docs/research.md`](docs/research.md)。支持、安全和发布说明请参阅 [`SUPPORT.md`](SUPPORT.md)、[`SECURITY.md`](SECURITY.md) 和 [`CHANGELOG.md`](CHANGELOG.md)。客户端验证证据及其限制记录在 [`docs/compatibility.md`](docs/compatibility.md) 中。
 
 维护者专用的交接、来源记录、生命周期、behavior eval、激活和发布流程位于 [`docs/maintainer-workflows.md`](docs/maintainer-workflows.md)。这些流程不会作为公开 skill 发布，以避免产生路由冲突。
 

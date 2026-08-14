@@ -34,10 +34,24 @@ skills indefinitely; duplicate descriptions degrade routing.
 
 ## Release evidence
 
-Before tagging, run `npm run check`, validate native adapters available in the
-environment, inspect `npm pack --dry-run --json`, verify versions, and update
-the changelog and compatibility matrix. The tag workflow rebuilds the gate and
-publishes a full Git archive with a SHA-256 checksum.
+Before tagging, run `npm run check`, `npm run catalog:health`, validate native
+adapters available in the environment, inspect `npm pack --dry-run --json`,
+verify versions, and update the changelog and compatibility evidence. The tag
+workflow rebuilds the gate, validates the built archive from an isolated
+extraction, and publishes that immutable artifact with a SHA-256 checksum.
+
+`catalog.json` owns catalog membership and grouping. Update it with every
+public capability change; the repository gate rejects drift in routing evals,
+the English and Chinese README tables, and `docs/catalog.md`. Record client
+checks in `compatibility/evidence.json` and render the table with:
+
+```bash
+python3 scripts/compatibility.py write
+```
+
+Run `python3 scripts/repository_security.py` when changing workflows or public
+text. It rejects mutable third-party action references, checkout credentials,
+dangerous hidden Unicode, personal home paths, and unsafe install commands.
 
 ## Behavior regression evaluation
 

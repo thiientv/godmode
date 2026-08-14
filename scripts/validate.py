@@ -17,12 +17,19 @@ from skilllib import (
     validate_skill,
 )
 from behavior_eval import validate_cases
+from catalog import validate_catalog
+from compatibility import validate_compatibility
+from repository_security import validate_public_files, validate_workflows
 
 
 def validate_repository(root: Path, include_evals: bool = True) -> list[str]:
     """Return all validation errors without stopping at the first problem."""
 
     errors: list[str] = []
+    errors.extend(validate_public_files(root))
+    errors.extend(validate_workflows(root))
+    errors.extend(validate_catalog(root))
+    errors.extend(validate_compatibility(root))
     errors.extend(validate_manifests(root))
     errors.extend(validate_versions(root))
     skill_dirs = discover_skills(root)

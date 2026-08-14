@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "surfaces": [
+    {
+      "id": "agent-skills-layout",
+      "surface": "Agent Skills directory layout",
+      "evidence": "Repository validator checks frontmatter, names, links, body limits, and routing fixtures",
+      "status": "Structurally supported",
+      "observed_at": "2026-08-13",
+      "client_version": null,
+      "limitations": [
+        "Structural validation does not prove native discovery or activation"
+      ]
+    },
+    {
+      "id": "claude-code-plugin",
+      "surface": "Claude Code plugin",
+      "evidence": "Marketplace manifest passed local plugin validation; SessionStart hook emitted valid JSON context",
+      "status": "Adapter validated locally",
+      "observed_at": "2026-08-13",
+      "client_version": null,
+      "limitations": [
+        "The local client version was not recorded"
+      ]
+    },
+    {
+      "id": "codex-plugin",
+      "surface": "Codex plugin",
+      "evidence": "Direct and packaged manifests pass repository schema checks",
+      "status": "Manifest validated; clean-profile install pending",
+      "observed_at": "2026-08-13",
+      "client_version": null,
+      "limitations": [
+        "The observed CLI exposed no plugin validation command",
+        "A clean-profile installation trace has not been recorded"
+      ]
+    },
+    {
+      "id": "explicit-codex-skill-use",
+      "surface": "Explicit Codex skill use",
+      "evidence": "Independent forward runs can load skills by path",
+      "status": "Forward-test surface available",
+      "observed_at": "2026-08-13",
+      "client_version": null,
+      "limitations": [
+        "This does not prove automatic routing"
+      ]
+    },
+    {
+      "id": "other-clients",
+      "surface": "Cursor, Gemini CLI, OpenCode, and other clients",
+      "evidence": "Standard skill directories can be copied; no native trace is recorded",
+      "status": "Unverified",
+      "observed_at": "2026-08-13",
+      "client_version": null,
+      "limitations": [
+        "No client-specific installation, discovery, or behavior evidence is recorded"
+      ]
+    }
+  ]
+}

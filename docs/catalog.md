@@ -4,6 +4,10 @@ Godmode keeps workflow states and engineering expertise as separate public
 skills. This makes activation clearer than a single “build” skill while still
 allowing native clients to compose skills for one task.
 
+`catalog.json` owns group membership. The README tables provide localized
+descriptions, while repository validation requires every discovered skill,
+routing fixture, and documentation consumer to stay synchronized.
+
 ## Workflow map
 
 ```text
@@ -100,6 +104,10 @@ capabilities also ship dependency-free helpers:
 The repository-level `scripts/behavior_eval.py` validates behavior case sets,
 creates baseline/candidate run records, and compares transparent weighted
 results without invoking a proprietary evaluation service.
+
+`scripts/catalog_health.py` reports context-size proxies, bundled resources,
+changed skills, and description overlap. These are review signals, not an
+automatic merge, retirement, or quality score.
 
 Neither helper is an AI router or a universal design score. Their output is
 evidence to inspect and discuss.
