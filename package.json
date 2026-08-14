@@ -28,6 +28,7 @@
     "validate": "python3 -B scripts/validate.py",
     "test": "python3 -B -m unittest discover -s tests -p 'test_*.py'",
     "eval:validate": "python3 -B scripts/behavior_eval.py validate evals/behavior/core-workflows.json",
+    "eval:native": "python3 -B scripts/native_behavior_eval.py",
     "catalog:check": "python3 -B scripts/catalog.py",
     "catalog:health": "python3 -B scripts/catalog_health.py",
     "compatibility:check": "python3 -B scripts/compatibility.py check",
