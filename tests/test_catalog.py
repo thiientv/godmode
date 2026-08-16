@@ -48,6 +48,30 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(metadata["metadata"], {"role": "workflow"})
         self.assertEqual(body, "# Sample\n")
 
+    def test_duplicate_frontmatter_keys_are_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "duplicate frontmatter key: name"):
+            parse_frontmatter(
+                "---\n"
+                "name: first\n"
+                "description: Example skill.\n"
+                "name: second\n"
+                "---\n"
+                "# Sample\n"
+            )
+
+    def test_duplicate_nested_frontmatter_keys_are_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "duplicate frontmatter key: role"):
+            parse_frontmatter(
+                "---\n"
+                "name: sample-skill\n"
+                "description: Example skill.\n"
+                "metadata:\n"
+                "  role: workflow\n"
+                "  role: other\n"
+                "---\n"
+                "# Sample\n"
+            )
+
     def test_invalid_name_and_link_are_reported(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             skill_dir = Path(temporary_directory) / "skills" / "Bad_Name"
