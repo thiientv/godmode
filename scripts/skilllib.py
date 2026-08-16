@@ -11,12 +11,7 @@ from urllib.parse import unquote, urlsplit
 
 
 ALLOWED_FRONTMATTER_FIELDS = {
-    "name",
-    "description",
-    "license",
-    "compatibility",
-    "metadata",
-    "allowed-tools",
+    "name", "description", "license", "compatibility", "metadata", "allowed-tools",
 }
 MAX_NAME_LENGTH = 64
 MAX_DESCRIPTION_LENGTH = 1024
@@ -25,33 +20,12 @@ MAX_BODY_LINES = 500
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 LINK_PATTERN = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
-ROUTING_STOPWORDS = {
-    "a",
-    "an",
-    "and",
-    "change",
-    "coding",
-    "for",
-    "help",
-    "in",
-    "it",
-    "me",
-    "new",
-    "of",
-    "or",
-    "the",
-    "this",
-    "to",
-    "use",
-    "when",
-    "with",
-}
+ROUTING_STOPWORDS = {"a", "an", "and", "change", "coding", "for", "help", "in", "it", "me", "new", "of", "or", "the", "this", "to", "use", "when", "with"}
 
 
 @dataclass(frozen=True)
 class SkillRecord:
     """A discovered skill and its parsed frontmatter."""
-
     directory: Path
     metadata: dict[str, object]
     body: str
@@ -69,7 +43,6 @@ class SkillRecord:
 
 def _parse_scalar(value: str) -> object:
     """Parse the scalar subset used by this repository's frontmatter."""
-
     stripped = value.strip()
     if not stripped:
         return ""
@@ -89,17 +62,17 @@ def _parse_scalar(value: str) -> object:
     return stripped
 
 
+def _set_unique(mapping: dict[str, object], key: str, value: object) -> None:
+    """Reject duplicate keys instead of silently using the last definition."""
+    if key in mapping:
+        raise ValueError(f"duplicate frontmatter key: {key}")
+    mapping[key] = value
+
+
 def parse_frontmatter(text: str) -> tuple[dict[str, object], str]:
-    """Parse the small YAML frontmatter subset used by public skills.
-
-    The validator intentionally has no runtime dependency on PyYAML. It accepts
-    simple scalars, folded/literal descriptions, and a one-level metadata map,
-    which covers the Agent Skills fields Godmode publishes.
-    """
-
+    """Parse the small YAML frontmatter subset used by public skills."""
     if not text.startswith("---\n"):
         raise ValueError("SKILL.md must start with YAML frontmatter (---)")
-
     closing_match = re.search(r"\n---(?:\n|$)", text[4:])
     if closing_match is None:
         raise ValueError("frontmatter is not closed with ---")
@@ -134,7 +107,7 @@ def parse_frontmatter(text: str) -> tuple[dict[str, object], str]:
                 block_lines.append(lines[index].strip())
                 index += 1
             separator = "\n" if raw_value.startswith("|") else " "
-            values[key] = separator.join(block_lines).strip()
+            _set_unique(values, key, separator.join(block_lines).strip())
             continue
 
         if raw_value == "":
@@ -148,31 +121,25 @@ def parse_frontmatter(text: str) -> tuple[dict[str, object], str]:
                 nested_key = nested_key.strip()
                 if not nested_key:
                     raise ValueError("frontmatter contains an empty nested key")
-                nested[nested_key] = _parse_scalar(nested_value)
-            values[key] = nested
+                _set_unique(nested, nested_key, _parse_scalar(nested_value))
+            _set_unique(values, key, nested)
             continue
 
-        values[key] = _parse_scalar(raw_value)
+        _set_unique(values, key, _parse_scalar(raw_value))
 
     return values, body
 
 
 def discover_skills(root: Path) -> list[Path]:
     """Return direct public skill directories in deterministic order."""
-
     skills_root = root / "skills"
     if not skills_root.is_dir():
         return []
-    return sorted(
-        path.parent
-        for path in skills_root.glob("*/SKILL.md")
-        if path.is_file()
-    )
+    return sorted(path.parent for path in skills_root.glob("*/SKILL.md") if path.is_file())
 
 
 def load_skill(skill_dir: Path) -> SkillRecord:
     """Load one skill from its canonical SKILL.md file."""
-
     text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
     metadata, body = parse_frontmatter(text)
     return SkillRecord(skill_dir, metadata, body)
@@ -199,11 +166,9 @@ def _validate_local_links(record: SkillRecord) -> list[str]:
 
 def _validate_agent_metadata(record: SkillRecord) -> list[str]:
     """Validate optional OpenAI skill UI metadata without a YAML dependency."""
-
     path = record.directory / "agents" / "openai.yaml"
     if not path.is_file():
         return []
-
     prefix = f"{record.directory.relative_to(record.directory.parents[1])}"
     try:
         lines = path.read_text(encoding="utf-8").splitlines()
@@ -220,7 +185,7 @@ def _validate_agent_metadata(record: SkillRecord) -> list[str]:
             return [f"{prefix}: agents/openai.yaml contains unsupported YAML structure"]
         key, raw_value = line.strip().split(":", 1)
         try:
-            interface[key] = _parse_scalar(raw_value)
+            _set_unique(interface, key, _parse_scalar(raw_value))
         except ValueError as error:
             return [f"{prefix}: agents/openai.yaml {error}"]
 
@@ -240,11 +205,9 @@ def _validate_agent_metadata(record: SkillRecord) -> list[str]:
 
 def validate_skill(record: SkillRecord) -> list[str]:
     """Validate one skill against the Agent Skills format and Godmode policy."""
-
     errors: list[str] = []
     metadata = record.metadata
     prefix = f"{record.directory.relative_to(record.directory.parents[1])}"
-
     unexpected = sorted(set(metadata) - ALLOWED_FRONTMATTER_FIELDS)
     if unexpected:
         errors.append(f"{prefix}: unexpected frontmatter fields: {', '.join(unexpected)}")
@@ -266,13 +229,12 @@ def validate_skill(record: SkillRecord) -> list[str]:
     elif len(description) > MAX_DESCRIPTION_LENGTH:
         errors.append(f"{prefix}: description exceeds {MAX_DESCRIPTION_LENGTH} characters")
 
-    for field, max_length in (("compatibility", MAX_COMPATIBILITY_LENGTH),):
-        value = metadata.get(field)
-        if value is not None:
-            if not isinstance(value, str) or not value.strip():
-                errors.append(f"{prefix}: {field} must be a non-empty string")
-            elif len(value) > max_length:
-                errors.append(f"{prefix}: {field} exceeds {max_length} characters")
+    value = metadata.get("compatibility")
+    if value is not None:
+        if not isinstance(value, str) or not value.strip():
+            errors.append(f"{prefix}: compatibility must be a non-empty string")
+        elif len(value) > MAX_COMPATIBILITY_LENGTH:
+            errors.append(f"{prefix}: compatibility exceeds {MAX_COMPATIBILITY_LENGTH} characters")
 
     license_value = metadata.get("license")
     if license_value is not None and not isinstance(license_value, str):
@@ -283,8 +245,8 @@ def validate_skill(record: SkillRecord) -> list[str]:
         if not isinstance(skill_metadata, dict):
             errors.append(f"{prefix}: metadata must be a mapping")
         else:
-            for key, value in skill_metadata.items():
-                if not isinstance(key, str) or not isinstance(value, str):
+            for key, item in skill_metadata.items():
+                if not isinstance(key, str) or not isinstance(item, str):
                     errors.append(f"{prefix}: metadata keys and values must be strings")
 
     body_lines = record.body.splitlines()
@@ -292,7 +254,6 @@ def validate_skill(record: SkillRecord) -> list[str]:
         errors.append(f"{prefix}: skill body must not be empty")
     if len(body_lines) > MAX_BODY_LINES:
         errors.append(f"{prefix}: skill body exceeds {MAX_BODY_LINES} lines")
-
     errors.extend(f"{prefix}: {error}" for error in _validate_local_links(record))
     errors.extend(_validate_agent_metadata(record))
     return errors
@@ -300,21 +261,11 @@ def validate_skill(record: SkillRecord) -> list[str]:
 
 def tokenize(text: str) -> set[str]:
     """Return routing terms while ignoring generic instruction words."""
-
-    return {
-        token
-        for token in TOKEN_PATTERN.findall(text.lower().replace("-", " "))
-        if token not in ROUTING_STOPWORDS
-    }
+    return {token for token in TOKEN_PATTERN.findall(text.lower().replace("-", " ")) if token not in ROUTING_STOPWORDS}
 
 
 def route_scores(records: Iterable[SkillRecord], prompt: str) -> list[tuple[str, float]]:
-    """Rank skills with a small deterministic lexical routing proxy.
-
-    Native clients remain the routing authority. This proxy only catches
-    descriptions that omit their own trigger vocabulary or collide too much.
-    """
-
+    """Rank skills with a small deterministic lexical routing proxy."""
     query_terms = tokenize(prompt)
     record_list = list(records)
     document_terms = {record.name: tokenize(record.description) for record in record_list}
@@ -326,22 +277,18 @@ def route_scores(records: Iterable[SkillRecord], prompt: str) -> list[tuple[str,
     scored: list[tuple[str, float]] = []
     for record in record_list:
         terms = document_terms[record.name]
-        score = 0.0
-        for term in query_terms & terms:
-            score += 1.0 / max(1, document_frequency[term])
+        score = sum(1.0 / max(1, document_frequency[term]) for term in query_terms & terms)
         scored.append((record.name, score))
     return sorted(scored, key=lambda item: (-item[1], item[0]))
 
 
 def validate_eval_file(path: Path, known_names: set[str]) -> list[str]:
     """Validate a deterministic routing-eval file."""
-
     errors: list[str] = []
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         return [f"{path}: invalid JSON: {error}"]
-
     if not isinstance(payload, dict):
         return [f"{path}: eval must be a JSON object"]
     skill_name = payload.get("skill")
@@ -370,13 +317,11 @@ def validate_eval_file(path: Path, known_names: set[str]) -> list[str]:
 
 def validate_eval_routing(path: Path, payload: object, records: Iterable[SkillRecord]) -> list[str]:
     """Check that eval prompts route to the declared owner in the proxy."""
-
     if not isinstance(payload, dict):
         return [f"{path}: eval must be a JSON object"]
     skill_name = payload.get("skill")
     if not isinstance(skill_name, str):
         return [f"{path}: routing cannot run without a skill name"]
-
     record_list = list(records)
     known_names = {record.name for record in record_list}
     if skill_name not in known_names:
@@ -390,9 +335,7 @@ def validate_eval_routing(path: Path, payload: object, records: Iterable[SkillRe
         top_k = case.get("top_k", 1)
         ranked_names = [name for name, _ in ranking]
         if skill_name not in ranked_names[:top_k]:
-            errors.append(
-                f"{path}: positive[{index}] routes {ranked_names[:top_k]} instead of {skill_name}"
-            )
+            errors.append(f"{path}: positive[{index}] routes {ranked_names[:top_k]} instead of {skill_name}")
 
     for index, case in enumerate(payload.get("negative", [])):
         if not isinstance(case, dict) or not isinstance(case.get("prompt"), str):
@@ -402,7 +345,5 @@ def validate_eval_routing(path: Path, payload: object, records: Iterable[SkillRe
             continue
         scores = dict(route_scores(record_list, case["prompt"]))
         if scores.get(owner, 0.0) <= scores.get(skill_name, 0.0):
-            errors.append(
-                f"{path}: negative[{index}] does not rank {owner} above {skill_name}"
-            )
+            errors.append(f"{path}: negative[{index}] does not rank {owner} above {skill_name}")
     return errors
