@@ -96,18 +96,26 @@ def _step_block(lines: list[str], uses_index: int) -> list[str]:
 
 
 def validate_public_files(root: Path, paths: Iterable[Path] | None = None) -> list[str]:
-    """Return dangerous Unicode and personal-path findings in public text files."""
+    """Return dangerous Unicode, personal paths, and symlink findings in public files."""
 
     errors: list[str] = []
     candidates = list(paths) if paths is not None else _tracked_files(root)
     for path in candidates:
-        text = _read_text(path)
-        if text is None:
-            continue
         try:
             relative = path.relative_to(root)
         except ValueError:
             relative = path
+
+        # Do not follow repository symlinks while scanning public content. A symlink
+        # can otherwise make a "repository" validator inspect arbitrary host files,
+        # and release_smoke.py already treats links as invalid release payloads.
+        if path.is_symlink():
+            errors.append(f"{relative}: symbolic links are not allowed in public files")
+            continue
+
+        text = _read_text(path)
+        if text is None:
+            continue
 
         for index, character in enumerate(text):
             if _is_dangerous_character(character, index):
