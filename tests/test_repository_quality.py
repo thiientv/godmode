@@ -88,6 +88,19 @@ class RepositoryQualityTests(unittest.TestCase):
         self.assertTrue(any("U+202E" in error for error in errors))
         self.assertTrue(any("personal home path" in error for error in errors))
 
+    def test_public_file_scan_rejects_symlink_without_reading_target(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            target = root / "outside.txt"
+            target.write_text("\u202Ehidden", encoding="utf-8")
+            link = root / "published.md"
+            try:
+                link.symlink_to(target)
+            except (OSError, NotImplementedError):
+                self.skipTest("symlinks are unavailable")
+            errors = validate_public_files(root, [link])
+        self.assertEqual(errors, ["published.md: symbolic links are not allowed in public files"])
+
     def test_workflow_scan_rejects_mutable_actions_and_checkout_credentials(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)
