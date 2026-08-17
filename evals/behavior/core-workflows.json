@@ -67,6 +67,28 @@
         {"id": "abort", "description": "Predefined kill-switch or rollback thresholds and verification are explicit.", "required": true},
         {"id": "cleanup", "description": "Temporary flags or compatibility paths have an owner and expiry."}
       ]
+    },
+    {
+      "id": "recover-after-context-loss",
+      "prompt": "Continue a partially completed feature after the previous agent context was lost. The repository contains an uncommitted diff, a plan, a failing focused test, and review comments. Use Godmode to reconstruct the task state before making changes.",
+      "expected": "The agent inspects durable artifacts, identifies the current lifecycle state, separates completed work from assumptions, preserves scope, and names the next observable check before editing.",
+      "assertions": [
+        {"id": "artifact-first", "description": "Repository state, diff, plan, test result, and review evidence are inspected before continuation.", "required": true, "weight": 2},
+        {"id": "state-reconstructed", "description": "The current lifecycle state and completed states are explicitly identified.", "required": true},
+        {"id": "next-check", "description": "A concrete next observable check is named before implementation continues.", "required": true},
+        {"id": "scope-preserved", "description": "Unrelated cleanup or speculative refactoring is not introduced."}
+      ]
+    },
+    {
+      "id": "evidence-before-done",
+      "prompt": "A feature appears complete and the agent is asked to report it as done. Use Godmode completion verification. Some tests have never been run and one external integration is unavailable.",
+      "expected": "The agent distinguishes claims from fresh evidence, runs the highest-value available checks, records the unavailable integration as an explicit limit, and does not claim unverified coverage.",
+      "assertions": [
+        {"id": "fresh-check", "description": "At least one material completion claim is backed by a fresh observed check.", "required": true, "weight": 2},
+        {"id": "unverified-not-passed", "description": "Tests or integrations that were not exercised are not represented as passing.", "required": true, "weight": 2},
+        {"id": "explicit-limit", "description": "The unavailable external integration is recorded as a limitation.", "required": true},
+        {"id": "no-false-done", "description": "The final completion statement is bounded by the collected evidence."}
+      ]
     }
   ]
 }
