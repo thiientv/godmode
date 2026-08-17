@@ -1,6 +1,6 @@
 import unittest
 
-from scripts.lifecycle import can_transition, load_graph, validate_state_record
+from scripts.lifecycle import can_transition, load_graph, validate_graph, validate_state_record
 
 
 class LifecycleTests(unittest.TestCase):
@@ -16,6 +16,9 @@ class LifecycleTests(unittest.TestCase):
             "next_check": "run focused regression",
             "limits": [],
         }
+
+    def test_graph_schema_is_valid(self):
+        self.assertEqual(validate_graph(self.graph), [])
 
     def test_valid_record(self):
         self.assertEqual(validate_state_record(self.record(), self.graph), [])
