@@ -14,9 +14,45 @@ GRAPH_PATH = ROOT / "lifecycle.json"
 
 def load_graph(path: Path = GRAPH_PATH) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(payload, dict) or payload.get("schema_version") != 1:
-        raise ValueError("unsupported lifecycle schema")
+    errors = validate_graph(payload)
+    if errors:
+        raise ValueError("; ".join(errors))
     return payload
+
+
+def validate_graph(graph: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    states = graph.get("states")
+    risks = graph.get("risk_levels")
+    transitions = graph.get("transitions")
+    minimum_evidence = graph.get("minimum_evidence")
+    risk_requirements = graph.get("risk_requirements")
+    if graph.get("schema_version") != 1:
+        errors.append("schema_version must be 1")
+    if not isinstance(states, list) or not states or not all(isinstance(item, str) and item for item in states):
+        errors.append("states must be a non-empty string list")
+        return errors
+    state_set = set(states)
+    if len(state_set) != len(states):
+        errors.append("states must not contain duplicates")
+    if not isinstance(risks, list) or set(risks) != {"low", "medium", "high", "critical"}:
+        errors.append("risk_levels must contain low, medium, high, critical")
+    if not isinstance(transitions, dict) or set(transitions) != state_set:
+        errors.append("transitions must define every state exactly once")
+    else:
+        for state, targets in transitions.items():
+            if not isinstance(targets, list) or not all(target in state_set for target in targets):
+                errors.append(f"transitions[{state}] contains an unknown target")
+    if not isinstance(minimum_evidence, dict) or set(minimum_evidence) != state_set:
+        errors.append("minimum_evidence must define every state exactly once")
+    if not isinstance(risk_requirements, dict) or set(risk_requirements) != {"low", "medium", "high", "critical"}:
+        errors.append("risk_requirements must define every risk exactly once")
+    else:
+        for risk, requirement in risk_requirements.items():
+            required = requirement.get("required_states") if isinstance(requirement, dict) else None
+            if not isinstance(required, list) or not all(state in state_set for state in required):
+                errors.append(f"risk_requirements[{risk}].required_states contains an unknown state")
+    return errors
 
 
 def validate_state_record(record: dict[str, Any], graph: dict[str, Any] | None = None) -> list[str]:
@@ -24,14 +60,12 @@ def validate_state_record(record: dict[str, Any], graph: dict[str, Any] | None =
     errors: list[str] = []
     states = set(graph["states"])
     risks = set(graph["risk_levels"])
-
     state = record.get("state")
     risk = record.get("risk")
     completed = record.get("completed", [])
     evidence = record.get("evidence", [])
     next_check = record.get("next_check")
     limits = record.get("limits", [])
-
     if state not in states:
         errors.append(f"state must be one of {sorted(states)}")
     if risk not in risks:
@@ -44,20 +78,16 @@ def validate_state_record(record: dict[str, Any], graph: dict[str, Any] | None =
         errors.append("next_check must be a non-empty string")
     if not isinstance(limits, list) or not all(isinstance(item, str) and item.strip() for item in limits):
         errors.append("limits must be a list of non-empty strings")
-
     if errors:
         return errors
-
     if state == "DONE" and not _has_evidence(evidence, "evidence-ledger"):
         errors.append("DONE requires evidence-ledger evidence")
-
     required = graph["risk_requirements"][risk]["required_states"]
     completed_set = set(completed)
     if state == "DONE":
         missing = [required_state for required_state in required if required_state not in completed_set]
         if missing:
             errors.append(f"risk {risk} cannot reach DONE without states: {', '.join(missing)}")
-
     return errors
 
 
@@ -74,10 +104,9 @@ def can_transition(record: dict[str, Any], target: str, graph: dict[str, Any] | 
     allowed = graph["transitions"].get(current, [])
     if target not in allowed:
         return False, f"transition {current} -> {target} is not allowed"
-
     if target == "VERIFICATION" and not _has_evidence(record["evidence"], "fresh-test-result") and record["risk"] != "low":
         return False, "non-low-risk verification requires fresh-test-result evidence"
-    if target == "RELEASE" and record["risk"] not in {"critical"}:
+    if target == "RELEASE" and record["risk"] != "critical":
         return False, "RELEASE is reserved for critical-risk tasks in schema v1"
     return True, "ok"
 
