@@ -42,6 +42,7 @@ class LifecycleTests(unittest.TestCase):
         self.assertTrue(ok, message)
         record["state"] = "TESTING"
         record["completed"] = ["DISCOVERY", "IMPLEMENTATION", "TESTING"]
+
         ok, message = can_transition(record, "VERIFICATION", self.graph)
         self.assertFalse(ok)
         self.assertIn("fresh-test-result", message)
