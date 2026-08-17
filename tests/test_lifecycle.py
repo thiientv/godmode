@@ -8,11 +8,15 @@ class LifecycleTests(unittest.TestCase):
         self.graph = load_graph()
 
     def record(self, state="IMPLEMENTATION", risk="medium", completed=None, evidence=None):
+        if completed is None:
+            completed = ["DISCOVERY", "IMPLEMENTATION"]
+        if evidence is None:
+            evidence = [{"kind": "fresh-test-result", "result": "passed"}]
         return {
             "state": state,
             "risk": risk,
-            "completed": completed or ["DISCOVERY", "IMPLEMENTATION"],
-            "evidence": evidence or [{"kind": "fresh-test-result", "result": "passed"}],
+            "completed": completed,
+            "evidence": evidence,
             "next_check": "run focused regression",
             "limits": [],
         }
