@@ -38,6 +38,10 @@ class LifecycleTests(unittest.TestCase):
 
     def test_non_low_verification_requires_fresh_test_evidence(self):
         record = self.record(evidence=[])
+        ok, message = can_transition(record, "TESTING", self.graph)
+        self.assertTrue(ok, message)
+        record["state"] = "TESTING"
+        record["completed"] = ["DISCOVERY", "IMPLEMENTATION", "TESTING"]
         ok, message = can_transition(record, "VERIFICATION", self.graph)
         self.assertFalse(ok)
         self.assertIn("fresh-test-result", message)
