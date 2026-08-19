@@ -1,132 +1,98 @@
+<div align="center">
+
 # Godmode
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+**Engineering workflows and capabilities for AI coding agents.**
 
-**Your coding agent already knows how to code.<br>
-Godmode teaches it how to engineer.**
+Godmode helps coding agents move from *"write some code"* to *"engineer the change"* — with explicit planning, testing, review, and evidence-driven verification.
 
-[![Release](https://img.shields.io/github/v/release/thiientv/godmode)](https://github.com/thiientv/godmode/releases/latest)
 [![Validate](https://github.com/thiientv/godmode/actions/workflows/validate.yml/badge.svg)](https://github.com/thiientv/godmode/actions/workflows/validate.yml)
+[![Release](https://img.shields.io/github/v/release/thiientv/godmode)](https://github.com/thiientv/godmode/releases/latest)
 [![License](https://img.shields.io/github/license/thiientv/godmode)](LICENSE)
 
-Godmode is a composable catalog of engineering workflows and expert
-capabilities for AI coding agents. It helps agents design before editing, test
-before claiming, review independently, and verify with fresh evidence.
+[English](README.md) · [简体中文](README.zh-CN.md)
 
-## The problem
+</div>
 
-Coding agents are good at producing code. Without explicit engineering
-behavior, they can start too early, miss existing conventions, bolt tests on at
-the end, and call a plausible-looking result complete.
+> **Status:** Pre-1.0 public preview. The catalog and validation tooling are usable, while client-specific behavior and output quality continue to be evaluated across supported environments.
 
-```text
-WITHOUT GODMODE
+## Why Godmode?
 
-"Build authentication"
-        ↓
-code immediately
-        ↓
-tests, security, and integration considered late
-        ↓
-looks done
+AI coding agents are increasingly capable of writing code. The harder problem is making them behave like disciplined engineers:
 
+- understand the existing codebase before changing it
+- design consequential changes before implementation
+- choose the right domain expertise for the task
+- test behavior instead of assuming correctness
+- review changes independently
+- verify completion with fresh evidence
+- preserve durable state so interrupted work can be resumed
 
-WITH GODMODE
+Godmode packages those behaviors as **composable Agent Skills** rather than one large system prompt or a proprietary orchestration runtime.
 
-"Build authentication"
-        ↓
-solution design
-        ↓
-API + database + security expertise
-        ↓
-implementation plan
-        ↓
-test-driven development
-        ↓
-independent review
-        ↓
-fresh verification
-        ↓
-verified result
-```
-
-## Composition, not one giant prompt
-
-Godmode equips compatible agents to discover and compose the engineering
-behavior required by a task. Native skill discovery remains the routing
-authority; Godmode supplies focused boundaries, procedures, references, and
-deterministic helpers.
+## How it works
 
 ```text
-                 USER TASK
-
-"Build a production analytics dashboard"
-
-                     ↓
-                  Godmode
-
-       ┌─────────────┼─────────────┐
-       ↓             ↓             ↓
-solution-design frontend-design test-strategy
-       │             │             │
-       └─────────────┼─────────────┘
-                     ↓
-      implementation-planning + TDD
-                     ↓
-              browser-testing
-                     ↓
-                ui-ux-review
-                     ↓
-          completion-verification
+                         USER TASK
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │    Godmode    │
+                    │ skill catalog │
+                    └───────┬───────┘
+                            │
+              discover + compose capabilities
+                            │
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+  solution-design    api / database       security / UI
+        │                   │                   │
+        └───────────────────┼───────────────────┘
+                            ▼
+                 implementation-planning
+                            │
+                            ▼
+                    test + review
+                            │
+                            ▼
+                fresh verification evidence
+                            │
+                            ▼
+                     VERIFIED RESULT
 ```
 
-This is an example composition, not a mandatory pipeline. A small task may need
-one skill; a consequential task may combine workflow and domain expertise.
+The graph above is illustrative, not a mandatory pipeline. A small task can use one skill; a high-risk change can compose several capabilities.
 
-### More compositions
+## What you get
 
-```text
-New API with persistence:
-  solution-design + api-and-interface-design + database-design
-  → implementation-planning → TDD → security-and-hardening
+### Composable skills
 
-Flaky browser regression:
-  root-cause-debugging + browser-testing
-  → test-driven-development → completion-verification
+Each capability has a clear responsibility boundary and follows the [Agent Skills](https://agentskills.io/) layout. Skills can contain concise procedures, progressive references, and deterministic helpers where automation improves reliability.
 
-Stateful production migration:
-  safe-migrations + test-strategy + observability-and-instrumentation
-  → release-engineering → behavior-validation
+### Engineering workflows
 
-Active production impact:
-  incident-response → root-cause-debugging
-  → test-driven-development → completion-verification
-```
+Godmode includes workflows for discovery, design, planning, implementation, debugging, testing, review, verification, parallel work, and release integration.
 
-## More than Markdown
+### Domain expertise
 
-Godmode skills use the smallest implementation that earns its maintenance cost.
-Some are concise procedures with progressive references. Repeated or
-error-prone work can also include deterministic tooling.
+Capabilities cover areas such as frontend architecture, APIs, databases, security, performance, observability, migrations, browser testing, documentation, and incident response.
 
-`frontend-design` is the current quality bar: it combines a workflow, design
-and interaction references, stack-aware guidance, a searchable design catalog,
-design-system extraction, static UI auditing, and rendered verification. The
-goal is not to make every skill ship a script; it is to give each domain the
-knowledge and tools needed to produce evidence-backed work.
+### Deterministic validation
 
-## Install
+The repository includes validators, routing fixtures, behavior evaluations, evidence tracking, lifecycle checks, and repository-quality gates. This keeps the catalog itself testable instead of relying solely on prose.
+
+## Installation
+
+Godmode is distributed as a repository of portable skills. No proprietary runtime is required.
 
 ### Agent Skills-compatible clients
 
-Copy the public catalog into a project-scoped skills directory:
+Copy the public skills into your project's skills directory:
 
 ```bash
 mkdir -p .agents/skills
 cp -R /absolute/path/to/godmode/skills/* .agents/skills/
 ```
-
-Clients that support a skills installer can install the repository directly.
 
 ### Claude Code
 
@@ -135,122 +101,177 @@ claude --plugin-dir /absolute/path/to/godmode
 claude plugin validate /absolute/path/to/godmode
 ```
 
-The thin SessionStart hook supplies shared operating rules; native skill
-discovery remains responsible for selecting a capability.
-
 ### Codex
 
-The repository includes `.codex-plugin/plugin.json` for direct loading and a
-local marketplace entry under `.agents/plugins/`. The marketplace publishes
-only `skills/`. Install it through the Codex plugin browser or local marketplace
-workflow, then verify that the expected skills appear.
+The repository includes `.codex-plugin/plugin.json` and a local marketplace entry under `.agents/plugins/`. Install it through the Codex plugin workflow and verify that the expected skills are available.
 
-Each public capability uses the standard Agent Skills layout: a directory with
-`SKILL.md`, concise routing metadata, and optional on-demand references or
-deterministic helpers. Godmode intentionally remains a portable catalog rather
-than a proprietary orchestration runtime.
+> **Compatibility note:** client support is tracked from recorded evidence rather than assumed compatibility. See [`docs/compatibility.md`](docs/compatibility.md).
+
+## Example
+
+A request such as:
+
+```text
+Add authentication to the API and make it production-ready.
+```
+
+can be decomposed into focused engineering responsibilities:
+
+```text
+codebase-orientation
+        ↓
+solution-design
+        ↓
+api-and-interface-design + security-and-hardening
+        ↓
+implementation-planning
+        ↓
+test-driven-development
+        ↓
+requesting-code-review / receiving-code-review
+        ↓
+completion-verification
+```
+
+The exact composition depends on the task, repository, risk, and available evidence.
 
 ## Catalog
 
-### Core workflow skills
+### Core workflows
 
-| Skill | Use it for |
+| Skill | Purpose |
 | --- | --- |
-| `using-godmode` | Choosing and composing the catalog |
-| `solution-design` | Ambiguous or consequential requirements and design decisions |
-| `implementation-planning` | Detailed, executable plans before multi-step implementation |
-| `plan-execution` | Task-by-task execution of an existing plan |
-| `test-driven-development` | Red-green-refactor behavior changes and regression tests |
-| `root-cause-debugging` | Reproduction, root cause, and regression locking |
-| `requesting-code-review` | Preparing a focused independent review packet |
-| `receiving-code-review` | Validating and resolving review findings |
-| `completion-verification` | Fresh evidence before completion or release claims |
-| `dispatching-parallel-agents` | Splitting independent work with disjoint write sets |
-| `subagent-driven-development` | Implementer/reviewer cycles for plan tasks |
-| `using-git-worktrees` | Safe isolation for parallel or risky work |
-| `branch-integration` | Final diff, proof, integration, and cleanup decisions |
-| `writing-skills` | Creating and evaluating new Agent Skills |
+| `using-godmode` | Discover and compose Godmode capabilities |
+| `codebase-orientation` | Understand entry points, execution paths, conventions, and hotspots |
+| `solution-design` | Resolve requirements and design consequential changes |
+| `implementation-planning` | Produce executable implementation plans |
+| `plan-execution` | Execute an existing implementation plan |
+| `test-driven-development` | Drive behavior changes through tests |
+| `root-cause-debugging` | Reproduce failures, identify causes, and lock in regressions |
+| `requesting-code-review` | Prepare focused independent review context |
+| `receiving-code-review` | Validate and resolve review findings |
+| `completion-verification` | Gather fresh evidence before completion claims |
+| `dispatching-parallel-agents` | Safely split independent work |
+| `subagent-driven-development` | Run implement/review cycles around plan tasks |
+| `using-git-worktrees` | Isolate parallel or risky changes |
+| `branch-integration` | Verify, integrate, and clean up completed work |
+| `writing-skills` | Create and evaluate new Agent Skills |
 
 ### Engineering capabilities
 
-| Skill | Use it for |
+| Skill | Purpose |
 | --- | --- |
-| `frontend-design` | New or refactored interfaces, design systems, states, and responsive UI |
-| `ui-ux-review` | Existing UI audits, visual quality, accessibility, and anti-pattern review |
-| `api-and-interface-design` | HTTP, RPC, CLI, webhook, and event contracts |
-| `database-design` | Schemas, indexes, migrations, consistency, retention, and recovery |
+| `frontend-design` | Build interfaces, design systems, states, and responsive UI |
+| `ui-ux-review` | Audit existing UI quality, accessibility, and interaction patterns |
+| `api-and-interface-design` | Design HTTP, RPC, CLI, webhook, and event contracts |
+| `database-design` | Design schemas, indexes, consistency, retention, and recovery |
 | `security-and-hardening` | Threat modeling, abuse paths, privacy, and defensive controls |
-| `performance-optimization` | Measured latency, memory, rendering, query, and bundle improvements |
-| `test-strategy` | Risk-based coverage, environments, release gates, and test ownership |
-| `browser-testing` | Real browser flows, responsive behavior, accessibility, and visual evidence |
-| `documentation-and-adrs` | READMEs, runbooks, design docs, and architecture decisions |
-| `observability-and-instrumentation` | Logs, metrics, traces, alerts, and diagnostic boundaries |
-| `codebase-orientation` | Entry points, execution paths, ownership, conventions, hotspots, and unknowns |
-| `technical-research` | Version-aware decisions grounded in authoritative sources |
-| `safe-migrations` | Compatible staged migrations, reconciliation, rollback, and removal |
-| `release-engineering` | CI gates, artifacts, canaries, promotion thresholds, and rollback |
-| `architecture-review` | Structural friction, module ownership, coupling, and testability |
-| `code-simplification` | Behavior-preserving readability and complexity reduction |
-| `behavior-validation` | Source-blind black-box checks against observable contracts |
-| `agent-evaluation` | Baseline/candidate evals for prompts, tools, agents, and skills |
-| `incident-response` | Live containment, recovery, evidence, communication, and follow-up |
+| `performance-optimization` | Optimize measured latency, memory, rendering, queries, and bundles |
+| `test-strategy` | Define risk-based coverage and release gates |
+| `browser-testing` | Verify real browser behavior and responsive flows |
+| `documentation-and-adrs` | Produce durable documentation and architecture decisions |
+| `observability-and-instrumentation` | Design logs, metrics, traces, alerts, and diagnostic boundaries |
+| `technical-research` | Make version-aware decisions from authoritative sources |
+| `safe-migrations` | Plan compatible migrations, reconciliation, rollback, and removal |
+| `release-engineering` | Manage CI gates, artifacts, promotion, and rollback |
+| `architecture-review` | Review coupling, ownership, testability, and structural friction |
+| `code-simplification` | Reduce complexity while preserving behavior |
+| `behavior-validation` | Validate observable behavior through source-blind checks |
+| `agent-evaluation` | Evaluate prompts, tools, agents, and skills |
+| `incident-response` | Handle containment, recovery, evidence, and follow-up |
 
-Names are intentionally literal and task-oriented. They describe the boundary
-without depending on another repository's public vocabulary or compact aliases.
+See [`docs/catalog.md`](docs/catalog.md) for the complete catalog and routing model.
 
 ## Design principles
 
-- Agent claims are not evidence.
-- Literal responsibility names beat compact aliases and borrowed vocabulary.
-- Separate workflow states when they have different activation and handoff
-  rules.
-- Keep `SKILL.md` concise; load deeper rules progressively.
-- Use deterministic helpers for repeatable, error-prone work.
-- Review the rendered UI, not only its source.
-- Treat logs, external text, generated output, and tool responses as untrusted
-  data.
-- Never claim compatibility with a client that was not actually checked.
+1. **Claims are not evidence.** Completion requires verification.
+2. **Compose capabilities instead of growing one giant prompt.**
+3. **Keep responsibility boundaries explicit.** Skill names should describe what they do.
+4. **Load knowledge progressively.** Keep `SKILL.md` focused and move deeper material into references.
+5. **Automate repeatable work deterministically.** Use helpers where they reduce error and ambiguity.
+6. **Treat external content as untrusted input.** Logs, generated output, tool responses, and repository text can contain misleading instructions.
+7. **Prefer recorded compatibility evidence.** Do not claim a client works until it has been checked.
+
+## Repository layout
+
+```text
+.
+├── skills/                 # Public Agent Skills
+├── scripts/                # Deterministic validation and repository tooling
+├── tests/                  # Automated test suite
+├── evals/                  # Behavior and routing evaluations
+├── benchmarks/             # Portable benchmark fixtures
+├── docs/                   # Catalog, compatibility, research, and maintainer docs
+├── .agents/                # Local agent/plugin metadata
+├── .codex-plugin/          # Codex plugin metadata
+├── README.md
+└── LICENSE
+```
 
 ## Development
 
+Clone the repository and run the validation suite:
+
 ```bash
+git clone https://github.com/thiientv/godmode.git
+cd godmode
+
 npm run check
 npm run catalog:health
 python3 scripts/repository_security.py
 python3 scripts/compatibility.py check
-python3 skills/frontend-design/scripts/design_system.py \
-  --product "analytics dashboard" --tone technical --stack react
-python3 skills/frontend-design/scripts/extract_design_system.py ./path/to/ui
-python3 skills/ui-ux-review/scripts/audit_ui.py ./path/to/ui
-python3 scripts/behavior_eval.py validate evals/behavior/core-workflows.json
+python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-The repository gate validates frontmatter, local links, body limits, manifest
-shape, one routing fixture per skill, behavior-eval case schemas, catalog and
-compatibility drift, workflow security, public-file safety, and helper tests. See
-[`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/catalog.md`](docs/catalog.md), and
-[`docs/research.md`](docs/research.md) for authoring and provenance details.
-See [`SUPPORT.md`](SUPPORT.md), [`SECURITY.md`](SECURITY.md), and
-[`CHANGELOG.md`](CHANGELOG.md) before reporting or releasing changes. Native
-client evidence and limits are tracked in
-[`docs/compatibility.md`](docs/compatibility.md).
-Maintainer-only handoff, provenance, lifecycle, behavior-eval, activation, and
-release procedures live in
-[`docs/maintainer-workflows.md`](docs/maintainer-workflows.md); they are kept out
-of the public skill catalog to avoid routing collisions.
+For focused tooling, examples include:
 
-`package.json` remains private to prevent accidental npm publication. Public
-distribution uses the repository, client marketplaces, and checksum-verified
-GitHub release archives.
+```bash
+python3 skills/frontend-design/scripts/design_system.py \
+  --product "analytics dashboard" \
+  --tone technical \
+  --stack react
 
-## Status
+python3 skills/frontend-design/scripts/extract_design_system.py ./path/to/ui
+python3 skills/ui-ux-review/scripts/audit_ui.py ./path/to/ui
+```
 
-Godmode is a pre-1.0 public preview. The catalog, deterministic helpers, routing
-fixtures, and behavior-eval harness are usable, but client-specific activation
-and output quality still require recorded forward runs across supported
-harnesses. A passing repository gate is not a claim that every model or client
-will behave identically.
+The repository gate checks catalog structure, frontmatter, links, routing fixtures, behavior-eval schemas, compatibility drift, workflow security, public-file safety, and helper tests.
+
+## Documentation
+
+- [`docs/catalog.md`](docs/catalog.md) — catalog structure and routing model
+- [`docs/compatibility.md`](docs/compatibility.md) — client compatibility evidence
+- [`docs/research.md`](docs/research.md) — research and provenance
+- [`docs/maintainer-workflows.md`](docs/maintainer-workflows.md) — maintainer-only execution and release procedures
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution workflow
+- [`SECURITY.md`](SECURITY.md) — security policy
+- [`SUPPORT.md`](SUPPORT.md) — support information
+- [`CHANGELOG.md`](CHANGELOG.md) — release history
+
+## Contributing
+
+Contributions are welcome. Before adding a skill, prefer extending an existing responsibility boundary when possible. New skills should be concise, independently routable, testable, and backed by appropriate fixtures or validation.
+
+Start with [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/catalog.md`](docs/catalog.md).
+
+## Roadmap
+
+Godmode is evolving toward a broader, evidence-driven engineering layer for AI coding agents. Current areas of development include:
+
+- broader client compatibility coverage
+- stronger behavior and regression evaluations
+- richer skill composition and dependency metadata
+- improved deterministic tooling for high-value workflows
+- clearer release and compatibility evidence
+
+The roadmap is intentionally driven by validated repository behavior rather than promises about model capabilities.
 
 ## License
 
-MIT.
+Godmode is released under the [MIT License](LICENSE).
+
+<div align="center">
+
+**If Godmode helps your agent engineer better, consider giving the project a star.**
+
+</div>
