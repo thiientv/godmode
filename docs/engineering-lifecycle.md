@@ -8,57 +8,46 @@ Godmode skills are reusable procedures, but a coding agent also needs a durable 
 DISCOVERY → DESIGN → PLANNING → IMPLEMENTATION → TESTING → REVIEW → VERIFICATION → RELEASE → DONE
 ```
 
-States are checkpoints, not a fixed sequence. Low-risk work may skip states when the task evidence makes them unnecessary. A skipped state must not be confused with a completed state.
+States are checkpoints, not a fixed sequence. Risk and evidence determine which states are required. A skipped state is not represented as completed.
 
-| State | Purpose | Typical skills | Exit evidence |
-| --- | --- | --- | --- |
-| `DISCOVERY` | establish repository, constraints, and task boundary | `codebase-orientation`, `technical-research` | relevant files, constraints, unknowns |
-| `DESIGN` | decide the intended solution | `solution-design`, `architecture-review` | accepted design decision |
-| `PLANNING` | turn the design into executable work | `implementation-planning` | ordered plan with checks |
-| `IMPLEMENTATION` | make the scoped change | `plan-execution`, domain skills | changed files and local checks |
-| `TESTING` | prove changed behavior | `test-driven-development`, `test-strategy`, `browser-testing` | fresh test results |
-| `REVIEW` | obtain an independent risk check | `requesting-code-review`, `receiving-code-review` | review findings and disposition |
-| `VERIFICATION` | validate the aggregate completion claim | `completion-verification`, `behavior-validation` | evidence ledger and explicit limits |
-| `RELEASE` | safely ship a validated change | `release-engineering` | rollout evidence |
-| `DONE` | record a defensible completion state | `completion-verification` | no unverified required claim |
+| State | Purpose | Exit evidence |
+| --- | --- | --- |
+| `DISCOVERY` | establish repository, constraints, and task boundary | task boundary |
+| `DESIGN` | decide the intended solution | design decision |
+| `PLANNING` | turn the design into executable work | implementation plan |
+| `IMPLEMENTATION` | make the scoped change | changed scope |
+| `TESTING` | prove changed behavior | fresh test result |
+| `REVIEW` | obtain an independent risk check | review result |
+| `VERIFICATION` | validate the aggregate completion claim | evidence ledger |
+| `RELEASE` | safely ship a validated change | rollout evidence |
+| `DONE` | record a defensible completion state | valid evidence ledger |
 
-## Task state contract
+## Durable task state
 
-A task state record should answer four questions:
+`.godmode/task.json` is the durable state record. It stores the current state, risk, completed states, active skills, evidence references, next observable check, explicit limits, and timestamps. `.godmode/checkpoints/` contains point-in-time snapshots; `.godmode/events.jsonl` contains append-only execution events.
 
-1. Where are we?
-2. What has actually been completed?
-3. What evidence supports those claims?
-4. What is the next observable check?
+The `scripts/godmode.py` CLI exposes `init`, `status`, `resume`, `checkpoint`, `set-state`, `risk`, `impact`, and `invalidate` operations. Recovery prefers durable task state, then repository artifacts, and never requires conversational memory.
 
-Example:
+## Evidence freshness
 
-```json
-{
-  "state": "IMPLEMENTATION",
-  "completed": ["DISCOVERY", "DESIGN", "PLANNING"],
-  "active_skills": ["plan-execution", "test-driven-development"],
-  "next_check": "run the focused regression test",
-  "limits": ["OAuth provider was not exercised"]
-}
+Evidence is scoped to files and records the originating commit plus a content digest. If a scoped file changes, the evidence is invalidated. Invalid evidence cannot satisfy lifecycle gates.
+
+The evidence contract remains:
+
+```text
+Claim → falsifiable check → fresh result → explicit limit
 ```
+
+## Risk-aware release
+
+Low-risk work can complete after verification without a release state. Medium- and high-risk changes can release when their required evidence is present. Critical changes require review, rollout evidence, and an explicit rollback capability. The machine-readable policy is in `lifecycle.json`.
 
 ## Recovery
 
-When context is lost, reconstruct state from durable artifacts before asking the agent to continue:
-
-- `git status` and `git diff`;
-- task or issue description;
-- implementation plan and TODOs;
-- test results;
-- review comments;
-- behavior artifacts;
-- evidence ledger, when present.
-
-Recovery should prefer observed repository state over conversational memory.
+When context is lost, reconstruct state from durable artifacts before asking the agent to continue. Prefer `.godmode/task.json`, checkpoints, events, plans, tests, reviews, and the evidence ledger over conversational memory.
 
 ## Risk proportionality
 
-Risk controls the depth of the lifecycle. A trivial local edit can use a single verification check. Public API changes, migrations, security-sensitive changes, production incidents, and data-destructive operations should normally traverse more states and collect stronger evidence.
+A trivial local edit can use a single verification check. Public API changes, migrations, security-sensitive changes, production incidents, and data-destructive operations should normally traverse more states and collect stronger evidence.
 
 The lifecycle is therefore a **risk-aware state machine**, not a mandatory waterfall.

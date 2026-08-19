@@ -1,16 +1,6 @@
 {
-  "schema_version": 1,
-  "states": [
-    "DISCOVERY",
-    "DESIGN",
-    "PLANNING",
-    "IMPLEMENTATION",
-    "TESTING",
-    "REVIEW",
-    "VERIFICATION",
-    "RELEASE",
-    "DONE"
-  ],
+  "schema_version": 2,
+  "states": ["DISCOVERY", "DESIGN", "PLANNING", "IMPLEMENTATION", "TESTING", "REVIEW", "VERIFICATION", "RELEASE", "DONE"],
   "risk_levels": ["low", "medium", "high", "critical"],
   "transitions": {
     "DISCOVERY": ["DESIGN", "PLANNING", "IMPLEMENTATION", "DONE"],
@@ -24,20 +14,20 @@
     "DONE": []
   },
   "minimum_evidence": {
-    "DISCOVERY": ["task-boundary"],
-    "DESIGN": ["design-decision"],
-    "PLANNING": ["implementation-plan"],
-    "IMPLEMENTATION": ["changed-scope"],
-    "TESTING": ["fresh-test-result"],
-    "REVIEW": ["review-result"],
-    "VERIFICATION": ["evidence-ledger"],
-    "RELEASE": ["rollout-result"],
-    "DONE": ["evidence-ledger"]
+    "DISCOVERY": ["task-boundary"], "DESIGN": ["design-decision"], "PLANNING": ["implementation-plan"],
+    "IMPLEMENTATION": ["changed-scope"], "TESTING": ["fresh-test-result"], "REVIEW": ["review-result"],
+    "VERIFICATION": ["evidence-ledger"], "RELEASE": ["rollout-result"], "DONE": ["evidence-ledger"]
   },
   "risk_requirements": {
     "low": {"required_states": ["DISCOVERY", "VERIFICATION"]},
     "medium": {"required_states": ["DISCOVERY", "IMPLEMENTATION", "TESTING", "VERIFICATION"]},
     "high": {"required_states": ["DISCOVERY", "DESIGN", "PLANNING", "IMPLEMENTATION", "TESTING", "REVIEW", "VERIFICATION"]},
     "critical": {"required_states": ["DISCOVERY", "DESIGN", "PLANNING", "IMPLEMENTATION", "TESTING", "REVIEW", "VERIFICATION", "RELEASE"]}
+  },
+  "release_policy": {
+    "low": {"allowed": false, "reason": "low-risk work can complete after verification"},
+    "medium": {"allowed": true, "required_evidence": ["evidence-ledger"]},
+    "high": {"allowed": true, "required_evidence": ["evidence-ledger", "review-result"]},
+    "critical": {"allowed": true, "required_evidence": ["evidence-ledger", "review-result", "rollout-result"], "rollback_required": true}
   }
 }
