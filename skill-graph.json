@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "skills": {
+    "solution-design": {"requires": ["codebase-orientation"], "often_followed_by": ["implementation-planning", "architecture-review"], "conflicts_with": []},
+    "implementation-planning": {"requires": ["solution-design"], "often_followed_by": ["plan-execution", "test-strategy"], "conflicts_with": []},
+    "plan-execution": {"requires": ["implementation-planning"], "often_followed_by": ["test-driven-development", "completion-verification"], "conflicts_with": []},
+    "test-driven-development": {"requires": [], "often_followed_by": ["test-strategy", "completion-verification"], "conflicts_with": []},
+    "security-and-hardening": {"requires": [], "often_followed_by": ["test-strategy", "completion-verification"], "conflicts_with": []},
+    "safe-migrations": {"requires": ["database-design"], "often_followed_by": ["test-strategy", "completion-verification"], "conflicts_with": []},
+    "database-design": {"requires": ["codebase-orientation"], "often_followed_by": ["safe-migrations"], "conflicts_with": []},
+    "api-and-interface-design": {"requires": [], "often_followed_by": ["test-strategy", "completion-verification"], "conflicts_with": []},
+    "frontend-design": {"requires": [], "often_followed_by": ["ui-ux-review", "browser-testing"], "conflicts_with": []},
+    "ui-ux-review": {"requires": [], "often_followed_by": ["browser-testing", "completion-verification"], "conflicts_with": []},
+    "release-engineering": {"requires": ["completion-verification"], "often_followed_by": [], "conflicts_with": []},
+    "test-strategy": {"requires": [], "often_followed_by": ["completion-verification"], "conflicts_with": []},
+    "completion-verification": {"requires": [], "often_followed_by": [], "conflicts_with": []},
+    "codebase-orientation": {"requires": [], "often_followed_by": ["solution-design"], "conflicts_with": []},
+    "root-cause-debugging": {"requires": ["codebase-orientation"], "often_followed_by": ["test-driven-development", "completion-verification"], "conflicts_with": []}
+  }
+}
