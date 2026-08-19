@@ -4,26 +4,8 @@
   "description": "Composable engineering workflows and expert capabilities for AI coding agents.",
   "license": "MIT",
   "private": true,
-  "files": [
-    "skills",
-    "!skills/**/__pycache__",
-    "!skills/**/*.pyc",
-    "!skills/**/*.pyo",
-    "hooks",
-    ".agents",
-    ".claude-plugin",
-    ".codex-plugin",
-    "README.md",
-    "README.zh-CN.md",
-    "LICENSE",
-    "CHANGELOG.md",
-    "SUPPORT.md",
-    "SECURITY.md"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/thiientv/godmode"
-  },
+  "files": ["skills", "!skills/**/__pycache__", "!skills/**/*.pyc", "!skills/**/*.pyo", "hooks", ".agents", ".claude-plugin", ".codex-plugin", "README.md", "README.zh-CN.md", "LICENSE", "CHANGELOG.md", "SUPPORT.md", "SECURITY.md"],
+  "repository": {"type": "git", "url": "https://github.com/thiientv/godmode"},
   "scripts": {
     "validate": "python3 -B scripts/validate.py",
     "test": "python3 -B -m unittest discover -s tests -p 'test_*.py'",
@@ -33,6 +15,9 @@
     "catalog:health": "python3 -B scripts/catalog_health.py",
     "compatibility:check": "python3 -B scripts/compatibility.py check",
     "security:check": "python3 -B scripts/repository_security.py",
+    "godmode": "python3 -B scripts/godmode.py",
+    "godmode:risk": "python3 -B scripts/godmode.py risk",
+    "godmode:impact": "python3 -B scripts/godmode.py impact",
     "check": "python3 -B scripts/validate.py && npm run eval:validate && npm test"
   }
 }
