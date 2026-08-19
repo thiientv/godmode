@@ -155,6 +155,7 @@ completion-verification
 | `subagent-driven-development` | 围绕计划任务执行实现/评审循环 |
 | `using-git-worktrees` | 隔离并行或高风险变更 |
 | `branch-integration` | 验证、集成并清理已完成工作 |
+| `writing-skills` | 创建并评估新的 Agent Skills |
 
 ### 工程能力
 
