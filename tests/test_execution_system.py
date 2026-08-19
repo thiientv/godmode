@@ -24,7 +24,7 @@ class ExecutionSystemTests(unittest.TestCase):
 
     def test_evidence_invalidates_when_scoped_file_changes(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp); path = root / "src.txt"; path.parent.mkdir(); path.write_text("a")
+            root = Path(tmp); path = root / "src.txt"; path.write_text("a")
             evidence = create("claim", "test", "cat src.txt", "passed", root, ["src.txt"])
             path.write_text("b")
             changed, reason = invalidate(evidence, root)
