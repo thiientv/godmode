@@ -155,6 +155,7 @@ The exact composition depends on the task, repository, risk, and available evide
 | `subagent-driven-development` | Run implement/review cycles around plan tasks |
 | `using-git-worktrees` | Isolate parallel or risky changes |
 | `branch-integration` | Verify, integrate, and clean up completed work |
+| `writing-skills` | Create and evaluate new Agent Skills |
 
 ### Engineering capabilities
 
