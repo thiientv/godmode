@@ -1,6 +1,6 @@
 {
   "name": "godmode-agent-skills",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Composable engineering workflows and expert capabilities for AI coding agents.",
   "license": "MIT",
   "private": true,
@@ -22,6 +22,10 @@
     "godmode:impact": "python3 -B scripts/godmode.py impact",
     "godmode:gate": "python3 -B scripts/gate.py",
     "godmode:routing": "python3 -B scripts/routing_eval.py",
+    "godmode:runs": "python3 -B scripts/agent_runs.py",
+    "godmode:recover": "python3 -B scripts/recovery.py",
+    "godmode:compose": "python3 -B scripts/skill_composition.py",
+    "godmode:feedback": "python3 -B scripts/feedback.py",
     "check": "python3 -B scripts/validate.py && npm run eval:validate && npm run eval:routing && npm test"
   }
 }
