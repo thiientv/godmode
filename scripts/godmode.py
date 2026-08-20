@@ -9,6 +9,9 @@ from events import emit
 from risk import assess, impact, changed_files
 from evidence import invalidate_ledger
 from gate import gate
+from recovery import recover_context
+from agent_runs import load_run, run_files
+from skill_composition import compose
 
 
 def main() -> int:
@@ -17,6 +20,9 @@ def main() -> int:
     p = sub.add_parser("init"); p.add_argument("objective"); p.add_argument("--risk", default="medium"); p.add_argument("--task-id", default="local")
     sub.add_parser("status")
     sub.add_parser("resume")
+    sub.add_parser("runs")
+    p = sub.add_parser("show-run"); p.add_argument("run", type=Path)
+    p = sub.add_parser("compose"); p.add_argument("skills", nargs="+")
     sub.add_parser("risk")
     sub.add_parser("impact")
     sub.add_parser("checkpoint").add_argument("name")
@@ -28,7 +34,16 @@ def main() -> int:
         state = init(root, args.objective, args.risk, args.task_id); emit(root, "task_started", task_id=args.task_id, risk=args.risk); print(json.dumps(state, indent=2)); return 0
     if args.command == "status": print(status(root)); return 0
     if args.command == "resume":
-        recovered = recover(root); emit(root, "context_recovered", source=recovered["source"]); print(json.dumps(recovered, indent=2)); return 0
+        recovered = recover_context(root); emit(root, "context_recovered", source=recovered["source"]); print(json.dumps(recovered, indent=2)); return 0
+    if args.command == "runs":
+        files = list(run_files(root))
+        if not files: print("No .godmode/runs/*.json found."); return 0
+        for path in files:
+            run = load_run(path); print(f"{path.name}\t{run.get('run_id') or '-'}\t{run.get('adapter')}\t{run.get('model')}\t{','.join(run.get('skills', []))}")
+        return 0
+    if args.command == "show-run": print(json.dumps(load_run(args.run), indent=2, sort_keys=True)); return 0
+    if args.command == "compose":
+        result = compose(args.skills); print(json.dumps(result, indent=2, sort_keys=True)); return 1 if result["conflicts"] else 0
     if args.command == "risk": print(json.dumps(assess(changed_files(root)), indent=2)); return 0
     if args.command == "impact": print(json.dumps(impact(changed_files(root)), indent=2)); return 0
     if args.command == "checkpoint": checkpoint(root, args.name); print(f"checkpoint: {args.name}"); return 0
