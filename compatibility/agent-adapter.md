@@ -25,8 +25,21 @@ Adapters may omit capabilities when a client does not expose them. Missing telem
   "run_id": "...",
   "task_id": "...",
   "started_at": "...",
-  "events": ".godmode/events.jsonl",
+  "finished_at": null,
+  "events": [],
   "usage": {"input_tokens": 0, "output_tokens": 0},
+  "final_message": "",
+  "skills": [],
   "limits": ["client did not expose tool latency"]
 }
 ```
+
+`scripts/agent_runs.py` is the dependency-free reference normalizer and run explorer. Native adapters can emit client-specific records and normalize them before storing them under `.godmode/runs/`.
+
+## Event vocabulary
+
+The normalized event shape is intentionally small: timestamp, type, source, run/task IDs, skill, tool, command, status, and free-form details. Client-specific fields remain inside `details` so the core schema stays stable.
+
+## Provenance boundary
+
+An adapter must never synthesize unavailable client/model/version/usage fields. Use `unknown` or an explicit limit instead. This keeps benchmark comparisons honest and allows different harnesses to expose different telemetry capabilities.
