@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "description": "Portable routing regression cases for native agent traces.",
+  "cases": [
+    {"id": "security-change", "prompt": "Harden an OAuth token validation path against replay.", "expected": ["security-and-hardening"], "acceptable": ["root-cause-debugging", "test-driven-development"], "forbidden": ["frontend-design"]},
+    {"id": "database-migration", "prompt": "Introduce a backward-compatible database migration with rollback evidence.", "expected": ["safe-migrations"], "acceptable": ["database-design", "test-strategy"], "forbidden": ["frontend-design"]},
+    {"id": "ui-redesign", "prompt": "Improve an existing settings page across responsive states and accessibility.", "expected": ["frontend-design", "ui-ux-review"], "acceptable": ["browser-testing"], "forbidden": ["safe-migrations"]},
+    {"id": "order-dependent-test", "prompt": "Diagnose a deterministic test failure that appears only in the full suite.", "expected": ["root-cause-debugging"], "acceptable": ["test-driven-development", "observability-and-instrumentation"], "forbidden": ["release-engineering"]},
+    {"id": "release", "prompt": "Prepare a high-risk production rollout with canary and rollback evidence.", "expected": ["release-engineering"], "acceptable": ["completion-verification", "observability-and-instrumentation"], "forbidden": ["frontend-design"]}
+  ]
+}
