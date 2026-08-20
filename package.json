@@ -1,6 +1,6 @@
 {
   "name": "godmode-agent-skills",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Composable engineering workflows and expert capabilities for AI coding agents.",
   "license": "MIT",
   "private": true,
@@ -11,6 +11,8 @@
     "test": "python3 -B -m unittest discover -s tests -p 'test_*.py'",
     "eval:validate": "python3 -B scripts/behavior_eval.py validate evals/behavior/core-workflows.json",
     "eval:native": "python3 -B scripts/native_behavior_eval.py",
+    "eval:routing": "python3 -B scripts/routing_eval.py validate evals/routing/core.json",
+    "eval:grade": "python3 -B scripts/behavior_grader.py",
     "catalog:check": "python3 -B scripts/catalog.py",
     "catalog:health": "python3 -B scripts/catalog_health.py",
     "compatibility:check": "python3 -B scripts/compatibility.py check",
@@ -18,6 +20,8 @@
     "godmode": "python3 -B scripts/godmode.py",
     "godmode:risk": "python3 -B scripts/godmode.py risk",
     "godmode:impact": "python3 -B scripts/godmode.py impact",
-    "check": "python3 -B scripts/validate.py && npm run eval:validate && npm test"
+    "godmode:gate": "python3 -B scripts/gate.py",
+    "godmode:routing": "python3 -B scripts/routing_eval.py",
+    "check": "python3 -B scripts/validate.py && npm run eval:validate && npm run eval:routing && npm test"
   }
 }

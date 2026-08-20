@@ -8,6 +8,7 @@ from task_state import checkpoint, init, recover, status, load, save
 from events import emit
 from risk import assess, impact, changed_files
 from evidence import invalidate_ledger
+from gate import gate
 
 
 def main() -> int:
@@ -21,6 +22,7 @@ def main() -> int:
     sub.add_parser("checkpoint").add_argument("name")
     p = sub.add_parser("set-state"); p.add_argument("state"); p.add_argument("--next-check", default="run the next observable verification")
     p = sub.add_parser("invalidate"); p.add_argument("evidence", nargs="?", default=".godmode/evidence.json")
+    p = sub.add_parser("gate"); p.add_argument("--target", choices=["VERIFICATION", "RELEASE", "DONE"], default=None)
     args = parser.parse_args(); root = Path.cwd()
     if args.command == "init":
         state = init(root, args.objective, args.risk, args.task_id); emit(root, "task_started", task_id=args.task_id, risk=args.risk); print(json.dumps(state, indent=2)); return 0
@@ -35,9 +37,16 @@ def main() -> int:
         if not state: print("no task state", flush=True); return 1
         previous = state.get("state"); state["state"] = args.state; state["next_check"] = args.next_check; save(root, state); emit(root, "state_changed", previous=previous, current=args.state); return 0
     if args.command == "invalidate":
-        result = invalidate_ledger(root, Path(args.evidence));
+        result = invalidate_ledger(root, Path(args.evidence))
         for reason in result["reasons"]: emit(root, "evidence_invalidated", reason=reason)
         print(json.dumps(result, indent=2)); return 0
+    if args.command == "gate":
+        state = load(root)
+        if not state: print("no task state", flush=True); return 1
+        target = args.target or str(state.get("state", "VERIFICATION"))
+        result = gate(state, target)
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 0 if result["passed"] else 1
     return 1
 
 if __name__ == "__main__": raise SystemExit(main())
