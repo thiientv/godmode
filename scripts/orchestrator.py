@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Callable, Iterable
+from typing import Callable
 
 
 TERMINAL = {"completed", "failed", "cancelled"}
@@ -52,11 +52,7 @@ def ready_nodes(graph: dict) -> list[str]:
 
 
 def execute(graph: dict, runner: Callable[[dict], object], policy: RetryPolicy | None = None) -> dict:
-    """Run ready nodes sequentially while preserving deterministic state transitions.
-
-    The runner receives a node and may return True/False or raise an exception. Exceptions
-    are classified as retryable when they expose ``reason``; otherwise they fail the node.
-    """
+    """Run ready nodes sequentially while preserving deterministic state transitions."""
     policy = policy or RetryPolicy()
     nodes = {n["id"]: dict(n) for n in graph.get("nodes", [])}
     attempts = {node_id: 0 for node_id in nodes}
@@ -85,11 +81,13 @@ def execute(graph: dict, runner: Callable[[dict], object], policy: RetryPolicy |
                 if policy.should_retry(reason, attempts[node_id]):
                     node["state"] = "pending"
                     events.append({"node": node_id, "event": "retry", "attempt": attempts[node_id], "reason": reason})
+                    # The node is intentionally left pending so the next scheduler pass retries it.
+                    progressed = True
                 else:
                     node["state"] = "failed"
                     events.append({"node": node_id, "event": "failed", "attempt": attempts[node_id], "reason": reason})
                     progressed = True
-        if not progressed and ready:
+        if not progressed:
             break
 
     failed = sorted(node_id for node_id, node in nodes.items() if node.get("state") == "failed")
