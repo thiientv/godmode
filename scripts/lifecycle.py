@@ -13,7 +13,8 @@ GRAPH_PATH = ROOT / "lifecycle.json"
 def load_graph(path: Path = GRAPH_PATH) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     errors = validate_graph(payload)
-    if errors: raise ValueError("; ".join(errors))
+    if errors:
+        raise ValueError("; ".join(errors))
     return payload
 
 
@@ -64,16 +65,26 @@ def _has_evidence(evidence: list[dict[str, Any]], kind: str) -> bool:
 
 
 def can_transition(record: dict[str, Any], target: str, graph: dict[str, Any] | None = None) -> tuple[bool, str]:
-    graph = graph or load_graph(); errors = validate_state_record(record, graph)
-    if errors: return False, "; ".join(errors)
-    current, risk = record["state"], record["risk"]
-    if target not in graph["transitions"].get(current, []): return False, f"transition {current} -> {target} is not allowed"
-    if target == "VERIFICATION" and risk != "low" and not _has_evidence(record["evidence"], "fresh-test-result"): return False, "non-low-risk verification requires fresh-test-result evidence"
+    graph = graph or load_graph()
+    current = record.get("state")
+    transitions = graph.get("transitions", {})
+    if target not in transitions.get(current, []):
+        return False, f"transition {current} -> {target} is not allowed"
+
+    errors = validate_state_record(record, graph)
+    if errors:
+        return False, "; ".join(errors)
+
+    risk = record["risk"]
+    if target == "VERIFICATION" and risk != "low" and not _has_evidence(record["evidence"], "fresh-test-result"):
+        return False, "non-low-risk verification requires fresh-test-result evidence"
     if target == "RELEASE":
-        policy = graph["release_policy"][risk]
-        if not policy.get("allowed"): return False, f"release is not required for {risk}-risk tasks"
+        policy = graph.get("release_policy", {}).get(risk, {})
+        if not policy.get("allowed"):
+            return False, f"release is not required for {risk}-risk tasks"
         missing = [kind for kind in policy.get("required_evidence", []) if not _has_evidence(record["evidence"], kind)]
-        if missing: return False, f"release requires evidence: {', '.join(missing)}"
+        if missing:
+            return False, f"release requires evidence: {', '.join(missing)}"
     return True, "ok"
 
 
