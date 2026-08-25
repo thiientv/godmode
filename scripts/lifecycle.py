@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Validate and inspect Godmode's risk-aware engineering lifecycle."""
 from __future__ import annotations
-import argparse
-import json
+import argparse, json
 from pathlib import Path
 from typing import Any
 
@@ -21,9 +20,10 @@ def load_graph(path: Path = GRAPH_PATH) -> dict[str, Any]:
 def validate_graph(graph: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     states, risks = graph.get("states"), graph.get("risk_levels")
-    transitions, minimum_evidence = graph.get("transitions"), graph.get("minimum_evidence")
+    transitions = graph.get("transitions")
+    minimum_evidence = graph.get("minimum_evidence")
     risk_requirements, release_policy = graph.get("risk_requirements"), graph.get("release_policy")
-    if graph.get("schema_version") not in {1, 2}: errors.append("schema_version must be 1 or 2")
+    if graph.get("schema_version") not in {1, 2, 3}: errors.append("schema_version must be 1, 2 or 3")
     if not isinstance(states, list) or not states or not all(isinstance(x, str) and x for x in states): return errors + ["states must be a non-empty string list"]
     state_set = set(states)
     if len(state_set) != len(states): errors.append("states must not contain duplicates")
@@ -55,7 +55,8 @@ def validate_state_record(record: dict[str, Any], graph: dict[str, Any] | None =
     if not isinstance(record.get("limits", []), list) or not all(isinstance(x, str) and x.strip() for x in record.get("limits", [])): errors.append("limits must be a list of non-empty strings")
     if errors: return errors
     if state == "DONE" and not _has_evidence(evidence, "evidence-ledger"): errors.append("DONE requires evidence-ledger evidence")
-    required = graph["risk_requirements"][risk]["required_states"]; missing = [x for x in required if x not in set(completed)]
+    required = graph["risk_requirements"][risk]["required_states"]
+    missing = [x for x in required if x not in set(completed)]
     if state == "DONE" and missing: errors.append(f"risk {risk} cannot reach DONE without states: {', '.join(missing)}")
     return errors
 
@@ -70,21 +71,20 @@ def can_transition(record: dict[str, Any], target: str, graph: dict[str, Any] | 
     transitions = graph.get("transitions", {})
     if target not in transitions.get(current, []):
         return False, f"transition {current} -> {target} is not allowed"
-
     errors = validate_state_record(record, graph)
-    if errors:
-        return False, "; ".join(errors)
-
+    if errors: return False, "; ".join(errors)
     risk = record["risk"]
     if target == "VERIFICATION" and risk != "low" and not _has_evidence(record["evidence"], "fresh-test-result"):
         return False, "non-low-risk verification requires fresh-test-result evidence"
     if target == "RELEASE":
         policy = graph.get("release_policy", {}).get(risk, {})
-        if not policy.get("allowed"):
-            return False, f"release is not required for {risk}-risk tasks"
+        if not policy.get("allowed"): return False, f"release is not required for {risk}-risk tasks"
         missing = [kind for kind in policy.get("required_evidence", []) if not _has_evidence(record["evidence"], kind)]
-        if missing:
-            return False, f"release requires evidence: {', '.join(missing)}"
+        if missing: return False, f"release requires evidence: {', '.join(missing)}"
+        if policy.get("rollback_required") and not _has_evidence(record["evidence"], "rollback-plan"):
+            return False, "critical release requires rollback-plan evidence"
+    if target == "DONE" and risk == "critical" and record.get("state") != "RELEASE":
+        return False, "critical tasks must pass through RELEASE before DONE"
     return True, "ok"
 
 
