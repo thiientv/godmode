@@ -128,12 +128,12 @@ implementation-planning
         ↓
 test-driven-development
         ↓
-requesting-code-review / receiving-code-review
+pr-code-reviewer
         ↓
 completion-verification
 ```
 
-The exact composition depends on the task, repository, risk, and available evidence.
+For changes that already have review feedback, `receiving-code-review` handles validation and fixes. The exact composition depends on the task, repository, risk, and available evidence.
 
 ## Catalog
 
@@ -149,6 +149,7 @@ The exact composition depends on the task, repository, risk, and available evide
 | `test-driven-development` | Drive behavior changes through tests |
 | `root-cause-debugging` | Reproduce failures, identify causes, and lock in regressions |
 | `requesting-code-review` | Prepare focused independent review context |
+| `pr-code-reviewer` | Review a GitHub PR or diff for correctness, security, compatibility, tests, and maintainability |
 | `receiving-code-review` | Validate and resolve review findings |
 | `completion-verification` | Gather fresh evidence before completion claims |
 | `dispatching-parallel-agents` | Safely split independent work |
@@ -168,12 +169,12 @@ The exact composition depends on the task, repository, risk, and available evide
 | `security-and-hardening` | Threat modeling, abuse paths, privacy, and defensive controls |
 | `performance-optimization` | Optimize measured latency, memory, rendering, queries, and bundles |
 | `test-strategy` | Define risk-based coverage and release gates |
-| `browser-testing` | Verify real browser behavior and responsive flows |
+| `browser-testing` | Exercise a real web boundary |
 | `documentation-and-adrs` | Produce durable documentation and architecture decisions |
-| `observability-and-instrumentation` | Design logs, metrics, traces, alerts, and diagnostic boundaries |
-| `technical-research` | Make version-aware decisions from authoritative sources |
-| `safe-migrations` | Plan compatible migrations, reconciliation, rollback, and removal |
-| `release-engineering` | Manage CI gates, artifacts, promotion, and rollback |
+| `observability-and-instrumentation` | Make failures measurable and diagnosable |
+| `technical-research` | Make version-aware decisions from primary sources |
+| `safe-migrations` | Preserve compatibility and state through a staged transition |
+| `release-engineering` | Control artifacts, rollout, promotion, and rollback |
 | `architecture-review` | Review coupling, ownership, testability, and structural friction |
 | `code-simplification` | Reduce complexity while preserving behavior |
 | `behavior-validation` | Validate observable behavior through source-blind checks |
