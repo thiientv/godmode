@@ -128,12 +128,12 @@ implementation-planning
         ↓
 test-driven-development
         ↓
-requesting-code-review / receiving-code-review
+pr-code-reviewer
         ↓
 completion-verification
 ```
 
-实际组合取决于任务、代码库、风险和可获得的证据。
+对于已经收到评审反馈的变更，可以使用 `receiving-code-review` 来验证并处理发现。实际组合取决于任务、代码库、风险和可获得的证据。
 
 ## Skill 目录
 
@@ -149,6 +149,7 @@ completion-verification
 | `test-driven-development` | 通过测试驱动行为变更 |
 | `root-cause-debugging` | 复现问题、定位根因并锁定回归 |
 | `requesting-code-review` | 准备聚焦的独立评审上下文 |
+| `pr-code-reviewer` | 检查 GitHub PR / diff 的正确性、安全性、兼容性、测试和可维护性 |
 | `receiving-code-review` | 验证并处理评审发现 |
 | `completion-verification` | 在完成声明前收集新鲜证据 |
 | `dispatching-parallel-agents` | 安全拆分相互独立的工作 |
