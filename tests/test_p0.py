@@ -10,7 +10,7 @@ from scripts.router import route
 
 class P0Tests(unittest.TestCase):
     def test_router_expands_transitive_dependencies_and_detects_risk(self):
-        result = route("security production deployment", limit=3)
+        result = route("debug security production deployment", limit=5)
         names = {item["skill"] for item in result["skills"]}
         self.assertEqual(result["risk"], "high")
         self.assertIn("codebase-orientation", names)
