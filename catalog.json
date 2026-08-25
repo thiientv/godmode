@@ -12,6 +12,7 @@
         "test-driven-development",
         "root-cause-debugging",
         "requesting-code-review",
+        "pr-code-reviewer",
         "receiving-code-review",
         "completion-verification",
         "dispatching-parallel-agents",
