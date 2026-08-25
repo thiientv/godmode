@@ -1,9 +1,9 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "states": ["DISCOVERY", "DESIGN", "PLANNING", "IMPLEMENTATION", "TESTING", "REVIEW", "VERIFICATION", "RELEASE", "DONE"],
   "risk_levels": ["low", "medium", "high", "critical"],
   "transitions": {
-    "DISCOVERY": ["DESIGN", "PLANNING", "IMPLEMENTATION", "DONE"],
+    "DISCOVERY": ["DESIGN", "PLANNING", "IMPLEMENTATION"],
     "DESIGN": ["PLANNING", "DISCOVERY"],
     "PLANNING": ["IMPLEMENTATION", "DESIGN"],
     "IMPLEMENTATION": ["TESTING", "PLANNING", "DISCOVERY"],
@@ -14,9 +14,15 @@
     "DONE": []
   },
   "minimum_evidence": {
-    "DISCOVERY": ["task-boundary"], "DESIGN": ["design-decision"], "PLANNING": ["implementation-plan"],
-    "IMPLEMENTATION": ["changed-scope"], "TESTING": ["fresh-test-result"], "REVIEW": ["review-result"],
-    "VERIFICATION": ["evidence-ledger"], "RELEASE": ["rollout-result"], "DONE": ["evidence-ledger"]
+    "DISCOVERY": ["task-boundary"],
+    "DESIGN": ["design-decision"],
+    "PLANNING": ["implementation-plan"],
+    "IMPLEMENTATION": ["changed-scope"],
+    "TESTING": ["fresh-test-result"],
+    "REVIEW": ["review-result"],
+    "VERIFICATION": ["evidence-ledger"],
+    "RELEASE": ["rollout-result"],
+    "DONE": ["evidence-ledger"]
   },
   "risk_requirements": {
     "low": {"required_states": ["DISCOVERY", "VERIFICATION"]},
