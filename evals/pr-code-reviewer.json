@@ -3,7 +3,7 @@
   "positive": [
     {"prompt": "Review this GitHub pull request for correctness, regressions, security, compatibility, test gaps, and maintainability.", "top_k": 1},
     {"prompt": "Perform an independent source-aware review of this PR diff and report prioritized P0-P3 findings with evidence and actionable fixes.", "top_k": 1},
-    {"prompt": "Inspect the changed code in this pull request, validate high-risk paths, and give an approve or request-changes verdict.", "top_k": 1}
+    {"prompt": "Find defects in the changed code, verify risky paths, and return prioritized review findings with a merge verdict.", "top_k": 1}
   ],
   "negative": [
     {"prompt": "Prepare the context and risk questions for another engineer to review this pull request.", "owner": "requesting-code-review"},
