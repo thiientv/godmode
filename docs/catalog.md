@@ -18,7 +18,7 @@ using-godmode
     │            └── subagent-driven-development
     ├── test-driven-development
     ├── root-cause-debugging
-    ├── requesting-code-review ── receiving-code-review
+    ├── requesting-code-review ── pr-code-reviewer ── receiving-code-review
     ├── completion-verification
     ├── dispatching-parallel-agents
     ├── using-git-worktrees
@@ -61,6 +61,7 @@ architecture-review → code-simplification or implementation-planning
 | `behavior-validation` | Test public behavior without source knowledge | `requesting-code-review`, `release-engineering` |
 | `agent-evaluation` | Compare stochastic agent behavior against a baseline | `writing-skills`, `release-engineering` |
 | `incident-response` | Contain and recover from active production impact | `observability-and-instrumentation`, `root-cause-debugging` |
+| `pr-code-reviewer` | Review a GitHub PR or diff for correctness, security, compatibility, tests, and maintainability | `requesting-code-review`, `receiving-code-review` |
 
 ## Naming policy
 
@@ -75,7 +76,7 @@ The public vocabulary now names the actual responsibility:
 | `shape` | `solution-design` + `implementation-planning` |
 | `build` | `plan-execution` + `test-driven-development` |
 | `investigate` | `root-cause-debugging` |
-| `review` | `requesting-code-review` + `receiving-code-review` |
+| `review` | `requesting-code-review` + `pr-code-reviewer` + `receiving-code-review` |
 | `prove` | `completion-verification` |
 | `craft-ui` | `frontend-design` + `ui-ux-review` |
 | `brainstorming` | `solution-design` |
