@@ -66,11 +66,9 @@ def _has_evidence(evidence: list[dict[str, Any]], kind: str) -> bool:
 
 
 def can_transition(record: dict[str, Any], target: str, graph: dict[str, Any] | None = None) -> tuple[bool, str]:
-    graph = graph or load_graph()
-    current = record.get("state")
+    graph = graph or load_graph(); current = record.get("state")
     transitions = graph.get("transitions", {})
-    if target not in transitions.get(current, []):
-        return False, f"transition {current} -> {target} is not allowed"
+    if target not in transitions.get(current, []): return False, f"transition {current} -> {target} is not allowed"
     errors = validate_state_record(record, graph)
     if errors: return False, "; ".join(errors)
     risk = record["risk"]
@@ -83,15 +81,24 @@ def can_transition(record: dict[str, Any], target: str, graph: dict[str, Any] | 
         if missing: return False, f"release requires evidence: {', '.join(missing)}"
         if policy.get("rollback_required") and not _has_evidence(record["evidence"], "rollback-plan"):
             return False, "critical release requires rollback-plan evidence"
-    if target == "DONE" and risk == "critical" and record.get("state") != "RELEASE":
-        return False, "critical tasks must pass through RELEASE before DONE"
+    if target == "DONE" and risk == "critical" and current != "RELEASE": return False, "critical tasks must pass through RELEASE before DONE"
     return True, "ok"
+
+
+def transition(record: dict[str, Any], target: str, graph: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Apply a lifecycle transition only after the same checks used by gates."""
+    allowed, reason = can_transition(record, target, graph)
+    if not allowed: raise ValueError(reason)
+    updated = dict(record); completed = list(updated.get("completed", []))
+    current = updated.get("state")
+    if current and current not in completed: completed.append(current)
+    updated["completed"] = completed; updated["state"] = target
+    return updated
 
 
 def recover_state(root: Path) -> dict[str, Any]:
     task = root / ".godmode" / "task.json"
-    if task.is_file():
-        return {"source": ".godmode/task.json", "state": json.loads(task.read_text(encoding="utf-8")), "limits": []}
+    if task.is_file(): return {"source": ".godmode/task.json", "state": json.loads(task.read_text(encoding="utf-8")), "limits": []}
     sources = [str(root / name) for name in ("plan.md", "implementation-plan.md", "PLAN.md", "evidence.json", "evidence-ledger.json") if (root / name).is_file()]
     return {"source": "repository-artifacts", "sources": sources, "next_check": "inspect durable artifacts and run the smallest fresh verification", "limits": ["state is inferred from repository artifacts; conversational history was not used"]}
 
