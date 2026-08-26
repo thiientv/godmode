@@ -14,6 +14,7 @@ from skill_composition import compose
 from router import route
 from context_budget import budget
 from execution_graph import validate as validate_graph
+from lifecycle import transition
 from report import report
 
 
@@ -57,7 +58,11 @@ def main() -> int:
     if args.command=="set-state":
         state=load(root)
         if not state: print("no task state",flush=True); return 1
-        previous=state.get("state"); state["state"]=args.state; state["next_check"]=args.next_check; save(root,state); emit(root,"state_changed",previous=previous,current=args.state); return 0
+        try:
+            updated=transition(state,args.state)
+        except ValueError as exc:
+            print(f"transition rejected: {exc}",flush=True); return 1
+        updated["next_check"]=args.next_check; save(root,updated); emit(root,"state_changed",previous=state.get("state"),current=args.state); return 0
     if args.command=="invalidate":
         result=invalidate_ledger(root,Path(args.evidence))
         for reason in result["reasons"]: emit(root,"evidence_invalidated",reason=reason)
