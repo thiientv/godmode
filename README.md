@@ -2,6 +2,10 @@
 
 # Godmode
 
+<!-- yarkr:badges:start -->
+[![Indexed on Yarkr](https://api.yarkr.com/functions/v1/api/api/v1/badges/repos/thiientv/godmode/version.svg)](https://yarkr.com/arks/thiientv/godmode)
+<!-- yarkr:badges:end -->
+
 **Engineering workflows and capabilities for AI coding agents.**
 
 Godmode helps coding agents move from *"write some code"* to *"engineer the change"* — with explicit planning, testing, review, and evidence-driven verification.
@@ -106,6 +110,40 @@ claude plugin validate /absolute/path/to/godmode
 The repository includes `.codex-plugin/plugin.json` and a local marketplace entry under `.agents/plugins/`. Install it through the Codex plugin workflow and verify that the expected skills are available.
 
 > **Compatibility note:** client support is tracked from recorded evidence rather than assumed compatibility. See [`docs/compatibility.md`](docs/compatibility.md).
+
+<!-- yarkr:install:start -->
+## Install with Yarkr
+
+This repo is indexed on [Yarkr](https://yarkr.com/arks/thiientv/godmode) as the ark [thiientv/godmode](https://yarkr.com/arks/thiientv/godmode), so its skills install into Claude Code, Codex, Cursor and other agent harnesses with one command.
+
+### CLI
+
+Install the whole ark, which Yarkr keeps equal to this repo:
+
+```bash
+npx yarkr-cli sync thiientv/godmode
+```
+
+Or add individual skills:
+
+```bash
+npx yarkr-cli add skill:thiientv/godmode/agent-evaluation
+npx yarkr-cli add skill:thiientv/godmode/api-and-interface-design
+npx yarkr-cli add skill:thiientv/godmode/architecture-review
+```
+
+No Node.js? `curl -fsSL https://yarkr.com/install.sh | sh` (macOS, Linux) or `irm https://yarkr.com/install.ps1 | iex` (Windows PowerShell) installs `yarkr` as a standalone binary; then type `yarkr` in place of `npx yarkr-cli`.
+
+### MCP
+
+Connect your agent to the ark over MCP:
+
+```bash
+npx yarkr-cli mcp add thiientv/godmode
+```
+
+Or point any MCP client at `https://api.yarkr.com/functions/v1/api/mcp/o/thiientv/godmode`.
+<!-- yarkr:install:end -->
 
 ## Example
 
